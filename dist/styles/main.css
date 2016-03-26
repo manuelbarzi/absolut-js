@@ -1,0 +1,49 @@
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+@font-face {
+  font-family: 'Sansation Light';
+  src: url(../fonts/sansation-light.woff); }
+* {
+  font-family: "Sansation Light", Lobster, arial, cursive; }
+
+html {
+  height: 100%; }
+
+body {
+  background-color: white;
+  border: 0px;
+  padding: 0px;
+  margin: 0px; }
+
+h1 {
+  font-size: 20px;
+  color: gray;
+  margin: 0px;
+  text-align: center; }
+
+h2 {
+  font-size: 20px;
+  color: gray;
+  margin: 0px;
+  text-align: center; }
+
+h3 {
+  font-size: 18px;
+  color: gray;
+  margin: 0px;
+  text-align: center; }
+
+p {
+  font-size: 16px;
+  color: gray;
+  margin: 0px;
+  text-align: center; }
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+/*# sourceMappingURL=main.css.map */
