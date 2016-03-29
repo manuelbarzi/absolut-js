@@ -3,7 +3,7 @@
 
 	js.run(function() {
 
-		/*
+		/**
 		 * View.
 		 */
 
@@ -34,11 +34,7 @@
 
 		view.add(desc);
 
-		/*
-		 * Moving body demo.
-		 */
-
-		// title
+		// moving body title
 		var movingBodyTitle = new Absolut.Panel(document
 				.getElementById('moving-body-title'));
 
@@ -47,17 +43,25 @@
 
 		view.add(movingBodyTitle);
 
-		// description
+		// moving body description
 
 		var movingBodyDesc = new Absolut.Panel(document
 				.getElementById('moving-body-desc'));
 
+		movingBodyDesc.width(300);
 		movingBodyDesc.location((view.width() - movingBodyDesc.width()) / 2,
 				movingBodyTitle.location().y + movingBodyTitle.height() + 5);
 
 		view.add(movingBodyDesc);
 
-		// the moving body component implementation
+		// moving body component implementation
+
+		/**
+		 * MovingBody
+		 * 
+		 * Animated body the parts of which can be mouse-dragged.
+		 * 
+		 */
 
 		var MovingBody = Absolut.Panel.extend({
 
@@ -94,7 +98,6 @@
 
 						eye.size(50, 50);
 						eye.color('white');
-						// eye.borderColor('transparent');
 
 						var diff;
 
@@ -249,7 +252,7 @@
 
 		});
 
-		// panel
+		// moving body panel
 
 		var movingBodyPanel = new Absolut.Panel(document
 				.getElementById('moving-body-panel'));
@@ -259,7 +262,7 @@
 				movingBodyDesc.location().y + movingBodyDesc.height() + 5);
 		movingBodyPanel.color('lightgray');
 
-		// the moving body component instantiated
+		// moving body instantiation and inclusion to the view
 
 		var movingBody = new MovingBody(document.getElementById('body'));
 
@@ -270,7 +273,7 @@
 
 		view.add(movingBodyPanel);
 
-		// footer
+		// moving body footer
 
 		var movingBodyFooter = new Absolut.Panel(document
 				.getElementById('moving-body-footer'));
@@ -282,11 +285,11 @@
 
 		view.add(movingBodyFooter);
 
-		/*
+		/**
 		 * ... View.
 		 */
 
-		// description
+		// footer
 		var footer = new Absolut.Panel(document.getElementById('footer'));
 
 		footer.location((view.width() - footer.width()) / 2, movingBodyFooter
