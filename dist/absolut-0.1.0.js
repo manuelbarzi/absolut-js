@@ -1,11 +1,11 @@
 /**
- * _titl
+ * AbsolutJS
  * 
- * _desc
+ * JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
  * 
- * @version _ver
+ * @version 0.1.0
  * 
- * @author _auth
+ * @author manuelbarzi
  */
 var Absolut;
 (function() {

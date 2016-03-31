@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	js.run(function() {
+	Absolut.run(function() {
 
 		/**
 		 * View.
@@ -11,10 +11,8 @@
 
 		view.visible(true);
 
-		var screen = Absolut.screen();
-
 		view.size(400, 1000);
-		view.location((screen.width - view.width()) / 2, 0);
+		view.location((Absolut.window.width() - view.width()) / 2, 0);
 		view.color('transparent');
 
 		// logo
