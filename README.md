@@ -1,4 +1,4 @@
-![Alt text](http://www.1nside0ut.com/AbsolutJS/images/logo.svg "AbsolutJS")
+![Alt text](http://www.1nside0ut.com/absolut.js/images/logo.svg "AbsolutJS")
 
 #### JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
 
