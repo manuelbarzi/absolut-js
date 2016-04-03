@@ -10,4 +10,4 @@ Link Absolut to your web page,
 <script type='text/javascript' src='absolut-0.1.0.min.js'></script>
 ```
 
-Inspect the code demo examples at http://1nside0ut.com/AbsolutJS/
+Inspect the code demo examples at http://1nside0ut.com/absolut.js/
