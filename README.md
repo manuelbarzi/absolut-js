@@ -1,4 +1,4 @@
-![Alt text](http://www.1nside0ut.com/absolut.js/images/logo.svg "AbsolutJS")
+![Alt text](http://www.1nside0ut.com/AbsolutJS/images/logo.svg "AbsolutJS")
 
 #### JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
 
@@ -10,4 +10,4 @@ Link Absolut to your web page,
 <script type='text/javascript' src='absolut-0.1.0.min.js'></script>
 ```
 
-Inspect the code demo examples at http://1nside0ut.com/absolut.js/
+Inspect the code demo examples at http://1nside0ut.com/AbsolutJS/

@@ -3,10 +3,10 @@
   "title": "AbsolutJS",
   "description": "JavaScript UI framework that works on absolute HTML, inspired on Java Swing.",
   "version": "0.1.0",
-  "homepage": "http://1nside0ut.com/absolut/",
+  "homepage": "http://1nside0ut.com/AbsolutJS/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1nside0ut/absolut.git"
+    "url": "git+https://github.com/1nside0ut/AbsolutJS.git"
   },
   "author": "manuelbarzi",
   "license": "MIT",
