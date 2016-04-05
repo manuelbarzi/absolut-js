@@ -194,13 +194,13 @@ var Absolut;
 	var Class;
 	(function() {
 
-		// The base Class implementation (does nothing)
-		Class = function Class() {
-		};
-
 		var initializing = false, fnTest = /xyz/.test(function() {
 			xyz;
 		}) ? /\b_super\b/ : /.*/;
+
+		// The base Class implementation (does nothing)
+		Class = function Class() {
+		};
 
 		// Create a new Class that inherits from this class
 		Class.extend = function(prop) {
@@ -247,10 +247,10 @@ var Absolut;
 			}
 
 			// Force eval to correctly inherit the name of the
-			// constructor name (init), otherwise it is not possible to set it
-			// (the name of a function is read-only and it can only be defined
-			// at the time it is declared; see
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function)
+			// constructor name (init), otherwise is not possible to set it (the
+			// name of a function is read-only and it can only be defined at the
+			// time it is declared. See
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
 			eval('Class = function '
 					+ (prop.init && prop.init.name ? prop.init.name : 'Class')
 					+ '() { construct.apply(this, arguments); };');
