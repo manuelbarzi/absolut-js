@@ -806,3 +806,8 @@ var Absolut;
 	};
 
 })();
+
+//export
+
+if (module)
+	module.exports = Absolut;
