@@ -246,8 +246,10 @@ var Absolut;
 					this.init.apply(this, arguments);
 			}
 
-			// Force eval to correctly inherit the name of the constructor (named
-			// function assigned to init), otherwise is not possible to set it (the
+			// Force eval to correctly inherit the name of the constructor
+			// (named
+			// function assigned to init), otherwise is not possible to set it
+			// (the
 			// name of a function is read-only and it can only be defined at the
 			// time it is declared; See https://
 			// developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
@@ -807,7 +809,7 @@ var Absolut;
 
 })();
 
-//export
+// export
 
-if (module)
+if (typeof module !== 'undefined')
 	module.exports = Absolut;
