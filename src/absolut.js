@@ -32,7 +32,8 @@ var Absolut;
 			// objects
 
 			typeOf : function(obj) {
-				return this.isFunction(obj) ? obj.name || Function.name
+				return this.isFunction(obj)
+						? obj.name || Function.name
 						: obj.constructor.name || Object.name;
 			},
 
@@ -139,7 +140,7 @@ var Absolut;
 			isType : function(obj, type) {
 
 				if (!js.isType(type, Array))
-					type = [ type ];
+					type = [type];
 
 				var expected = js.typeOf(type[0]);
 				var passes = js.isType(obj, type[0]);
@@ -333,6 +334,7 @@ var Absolut;
 				elem.style.margin = '0';
 				elem.style.padding = '0';
 
+				this._size = new Size(10, 10);
 				this._elem = elem;
 				this._mouse = {};
 				this._children = [];
@@ -498,24 +500,34 @@ var Absolut;
 				return val + 'px';
 			},
 
-			width : function(width) {
-				if (js.notDefined(width))
-					return this._elem.offsetWidth;
-				this._elem.style.width = this._px(width);
+			width : function() {
+				switch (arguments.length) {
+					case 0 :
+						return this._size.width || this._elem.offsetWidth;
+					case 1 :
+						this._size.width = arguments[0];
+						this._elem.style.width = this._px(this._size.width);
+				}
 			},
 
-			height : function(height) {
-				if (js.notDefined(height))
-					return this._elem.offsetHeight;
-				this._elem.style.height = this._px(height);
+			height : function() {
+				switch (arguments.length) {
+					case 0 :
+						return this._size.height || this._elem.offsetHeight;
+					case 1 :
+						this._size.height = arguments[0];
+						this._elem.style.height = this._px(this._size.height);
+				}
 			},
 
-			size : function(width, height) {
-				if (js.empty(arguments))
-					return new Size(this._elem.offsetWidth,
-							this._elem.offsetHeight);
-				this.width(width);
-				this.height(height);
+			size : function() {
+				switch (arguments.length) {
+					case 0 :
+						return new Size(this.width(), this.height());
+					case 2 :
+						this.width(arguments[0]);
+						this.height(arguments[1]);
+				}
 			},
 
 			// composition
@@ -530,7 +542,7 @@ var Absolut;
 
 			add : function(that) {
 
-				ass.isType(that, [ Component, Behavior ]);
+				ass.isType(that, [Component, Behavior]);
 
 				if (that instanceof Component) {
 					this._children.push(that);
@@ -579,17 +591,41 @@ var Absolut;
 			location : function() {
 
 				switch (arguments.length) {
-				case 0:
-					return new Point(this._elem.offsetLeft,
-							this._elem.offsetTop);
-				case 1:
-					var loc = arguments[0];
-					this._elem.style.left = this._px(loc.x);
-					this._elem.style.top = this._px(loc.y);
-					break;
-				case 2:
-					this._elem.style.left = this._px(arguments[0]);
-					this._elem.style.top = this._px(arguments[1]);
+					case 0 :
+						return new Point(this._elem.offsetLeft,
+								this._elem.offsetTop);
+					case 1 :
+						var loc = arguments[0];
+						this._elem.style.left = this._px(loc.x);
+						this._elem.style.top = this._px(loc.y);
+						break;
+					case 2 :
+						this._elem.style.left = this._px(arguments[0]);
+						this._elem.style.top = this._px(arguments[1]);
+				}
+
+			},
+
+			x : function() {
+
+				switch (arguments.length) {
+					case 0 :
+						return this._elem.offsetLeft;
+					case 1 :
+						var x = arguments[0];
+						this._elem.style.left = this._px(x);
+				}
+
+			},
+
+			y : function() {
+
+				switch (arguments.length) {
+					case 0 :
+						return this._elem.offsetTop;
+					case 1 :
+						var y = arguments[0];
+						this._elem.style.top = this._px(y);
 				}
 
 			},
