@@ -334,7 +334,7 @@ var Absolut;
 				elem.style.margin = '0';
 				elem.style.padding = '0';
 
-				this._size = new Size(10, 10);
+				this._size = {};
 				this._elem = elem;
 				this._mouse = {};
 				this._children = [];
