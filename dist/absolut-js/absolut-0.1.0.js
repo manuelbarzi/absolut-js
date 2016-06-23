@@ -334,6 +334,7 @@ var Absolut;
 				elem.style.margin = '0';
 				elem.style.padding = '0';
 
+				this._location = {};
 				this._size = {};
 				this._elem = elem;
 				this._mouse = {};
@@ -592,16 +593,15 @@ var Absolut;
 
 				switch (arguments.length) {
 					case 0 :
-						return new Point(this._elem.offsetLeft,
-								this._elem.offsetTop);
+						return new Point(this.x(), this.y());
 					case 1 :
 						var loc = arguments[0];
-						this._elem.style.left = this._px(loc.x);
-						this._elem.style.top = this._px(loc.y);
+						this.x(loc.x);
+						this.y(loc.y);
 						break;
 					case 2 :
-						this._elem.style.left = this._px(arguments[0]);
-						this._elem.style.top = this._px(arguments[1]);
+						this.x(arguments[0]);
+						this.y(arguments[1]);
 				}
 
 			},
@@ -610,10 +610,10 @@ var Absolut;
 
 				switch (arguments.length) {
 					case 0 :
-						return this._elem.offsetLeft;
+						return this._location.x || this._elem.offsetLeft;
 					case 1 :
-						var x = arguments[0];
-						this._elem.style.left = this._px(x);
+						this._location.x = arguments[0];
+						this._elem.style.left = this._px(this._location.x);
 				}
 
 			},
@@ -622,10 +622,10 @@ var Absolut;
 
 				switch (arguments.length) {
 					case 0 :
-						return this._elem.offsetTop;
+						return this._location.y || this._elem.offsetTop;
 					case 1 :
-						var y = arguments[0];
-						this._elem.style.top = this._px(y);
+						this._location.y = arguments[0];
+						this._elem.style.top = this._px(this._location.y);
 				}
 
 			},
