@@ -4,7 +4,7 @@
 	Absolut.run(function() {
 
 		/**
-		 * View.
+		 * View
 		 */
 
 		var view = new Absolut.View(document.getElementById('view'));
@@ -13,6 +13,9 @@
 
 		view.size(400, 1000);
 		view.location((Absolut.window.width() - view.width()) / 2, 0);
+		view.add(new Absolut.Resize(function(event) {
+			view.location((Absolut.window.width() - view.width()) / 2, 0);
+		}));
 		view.color('transparent');
 
 		// logo
@@ -284,7 +287,7 @@
 		view.add(movingBodyFooter);
 
 		/**
-		 * ... View.
+		 * ... View
 		 */
 
 		// footer

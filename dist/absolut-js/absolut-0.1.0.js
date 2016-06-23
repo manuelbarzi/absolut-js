@@ -11,7 +11,7 @@ var Absolut;
 (function() {
 
 	/**
-	 * J(ava)S(cript) facilities.
+	 * J(ava)S(cript) utils
 	 */
 	var js;
 	(function() {
@@ -53,7 +53,7 @@ var Absolut;
 			// functions
 
 			/**
-			 * Checks whether the object is a function.
+			 * Checks whether the object is a function
 			 */
 
 			isFunction : function(obj) {
@@ -63,7 +63,7 @@ var Absolut;
 			// dom about
 
 			/**
-			 * Safety run on DOM loaded.
+			 * Safety run on DOM loaded
 			 */
 			run : function(func) {
 				if (js.not(js.run._waiting))
@@ -91,7 +91,7 @@ var Absolut;
 	})();
 
 	/**
-	 * Win(dow) facilities.
+	 * Win(dow) utils
 	 */
 	var win;
 	(function() {
@@ -120,12 +120,12 @@ var Absolut;
 	})();
 
 	/**
-	 * Assert(ions).
+	 * Ass(ertion) utils
 	 */
-	var assert;
+	var ass;
 	(function() {
 
-		assert = {
+		ass = {
 
 			isTrue : function(condition, message) {
 				this.isFalse(!condition, message);
@@ -157,7 +157,7 @@ var Absolut;
 	})();
 
 	/**
-	 * Elements.
+	 * Elem(ent) utils
 	 */
 	var elem;
 	(function() {
@@ -187,7 +187,7 @@ var Absolut;
 	})();
 
 	/**
-	 * Class.
+	 * Class
 	 * 
 	 * An upgrade on simple class inheritance.
 	 */
@@ -272,13 +272,13 @@ var Absolut;
 	})();
 
 	/**
-	 * 2D stuff.
+	 * 2D utils
 	 */
 	var Point, Size;
 	(function() {
 
 		/**
-		 * Point.
+		 * Point
 		 */
 		Point = Class.extend({
 
@@ -297,7 +297,7 @@ var Absolut;
 		};
 
 		/**
-		 * Size.
+		 * Size
 		 */
 		Size = Class.extend({
 
@@ -315,19 +315,19 @@ var Absolut;
 	})();
 
 	/**
-	 * Absolut core.
+	 * Absolut core
 	 */
 	var Component, Behavior, Panel, View, MouseDown, MouseMove, MouseClick, MouseUp, MouseDrag, KeyDown, KeyUp, KeyPress;
 	(function() {
 
 		/**
-		 * Component class.
+		 * Component class
 		 */
 		Component = Class.extend({
 
 			init : function Component(elem) {
 
-				assert.isType(elem, HTMLElement);
+				ass.isType(elem, HTMLElement);
 
 				elem.style.position = 'absolute';
 				elem.style.margin = '0';
@@ -346,17 +346,9 @@ var Absolut;
 				return this._elem;
 			},
 
-			// mouse event handling
+			// event handling
 
-			_isPointed : function(p) {
-				var pos = this.absoluteLocation(), pointed = pos.x <= p.x
-						&& p.x <= pos.x + this._elem.offsetWidth
-						&& pos.y <= p.y
-						&& p.y <= pos.y + this._elem.offsetHeight;
-				return pointed;
-			},
-
-			_mouseEvent : function(behavior, event) {
+			_event : function(behavior, event) {
 				if (this._behaviors.length > 0) {
 					for ( var i in this._behaviors) {
 						var b = this._behaviors[i];
@@ -367,16 +359,39 @@ var Absolut;
 				}
 			},
 
+			// window event handling
+
+			_resize : function(event) {
+				if (this.visible()) {
+					this._event(Resize, event);
+					if (this._children.length > 0) {
+						for ( var i in this._children) {
+							this._children[i]._resize(event);
+						}
+					}
+				}
+			},
+
+			// mouse event handling
+
+			_isPointed : function(p) {
+				var pos = this.absoluteLocation(), pointed = pos.x <= p.x
+						&& p.x <= pos.x + this._elem.offsetWidth
+						&& pos.y <= p.y
+						&& p.y <= pos.y + this._elem.offsetHeight;
+				return pointed;
+			},
+
 			_mouseMove : function(event) {
 				if (this.visible()) {
 					if (this._isPointed(event.location)) {
-						this._mouseEvent(MouseMove, event);
+						this._event(MouseMove, event);
 						if (this._mouse.pressed) {
 							this._mouse.dragging = true;
-							this._mouseEvent(MouseDrag, event);
+							this._event(MouseDrag, event);
 						}
 					} else if (this._mouse.dragging)
-						this._mouseEvent(MouseDrag, event);
+						this._event(MouseDrag, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
 							this._children[i]._mouseMove(event);
@@ -389,7 +404,7 @@ var Absolut;
 				if (this.visible()) {
 					if (this._isPointed(event.location)) {
 						this._mouse.pressed = true;
-						this._mouseEvent(MouseDown, event);
+						this._event(MouseDown, event);
 					}
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -403,7 +418,7 @@ var Absolut;
 				this._releaseMouse();
 				if (this.visible()) {
 					if (this._isPointed(event.location)) {
-						this._mouseEvent(MouseUp, event);
+						this._event(MouseUp, event);
 					}
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -426,7 +441,7 @@ var Absolut;
 			_mouseClick : function(event) {
 				if (this.visible()) {
 					if (this._isPointed(event.location)) {
-						this._mouseEvent(MouseClick, event);
+						this._event(MouseClick, event);
 					}
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -438,20 +453,9 @@ var Absolut;
 
 			// key event handling
 
-			_keyEvent : function(behavior, event) {
-				if (this._behaviors.length > 0) {
-					for ( var i in this._behaviors) {
-						var b = this._behaviors[i];
-						if (b instanceof behavior) {
-							b.action(event);
-						}
-					}
-				}
-			},
-
 			_keyDown : function(event) {
 				if (this.visible()) {
-					this._keyEvent(KeyDown, event);
+					this._event(KeyDown, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
 							this._children[i]._keyDown(event);
@@ -462,7 +466,7 @@ var Absolut;
 
 			_keyUp : function(event) {
 				if (this.visible()) {
-					this._keyEvent(KeyUp, event);
+					this._event(KeyUp, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
 							this._children[i]._keyUp(event);
@@ -473,7 +477,7 @@ var Absolut;
 
 			_keyPress : function(event) {
 				if (this.visible()) {
-					this._keyEvent(KeyPress, event);
+					this._event(KeyPress, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
 							this._children[i]._keyPress(event);
@@ -526,7 +530,7 @@ var Absolut;
 
 			add : function(that) {
 
-				assert.isType(that, [ Component, Behavior ]);
+				ass.isType(that, [ Component, Behavior ]);
 
 				if (that instanceof Component) {
 					this._children.push(that);
@@ -597,7 +601,7 @@ var Absolut;
 		});
 
 		/**
-		 * Behavior.
+		 * Behavior
 		 * 
 		 * @param action,
 		 *            the behavior associated action.
@@ -605,6 +609,14 @@ var Absolut;
 		Behavior = Class.extend({
 			init : function Behavior(action) {
 				this.action = action;
+			}
+		});
+
+		// window behaviors
+
+		Resize = Behavior.extend({
+			init : function Resize(action) {
+				this._super(action);
 			}
 		});
 
@@ -663,7 +675,7 @@ var Absolut;
 		// base components
 
 		/**
-		 * Border.
+		 * Border
 		 */
 		Border = Component
 				.extend({
@@ -697,7 +709,7 @@ var Absolut;
 				});
 
 		/**
-		 * Panel.
+		 * Panel
 		 */
 		Panel = Border.extend({
 
@@ -708,7 +720,7 @@ var Absolut;
 		});
 
 		/**
-		 * Link.
+		 * Link
 		 */
 		Link = Component.extend({
 			init : function Link(elem, action) {
@@ -718,7 +730,7 @@ var Absolut;
 		});
 
 		/**
-		 * View.
+		 * View
 		 */
 		View = Panel.extend({
 
@@ -729,15 +741,26 @@ var Absolut;
 				var view = this;
 
 				/**
-				 * Mouse Event.
+				 * Window Event
+				 */
+				function WindowEvent(event) {
+					this.event = event;
+				}
+
+				// window event handling through view component's tree
+
+				window.addEventListener('resize', function(event) {
+					view._resize(new WindowEvent(event));
+				});
+
+				/**
+				 * Mouse Event
 				 */
 				function MouseEvent(event) {
 					this.location = new Point(event.clientX, event.clientY);
 				}
 
-				/**
-				 * Mouse event handling through view component's tree.
-				 */
+				// mouse event handling through view component's tree
 
 				window.addEventListener('mousemove', function(event) {
 					view._mouseMove(new MouseEvent(event));
@@ -756,15 +779,13 @@ var Absolut;
 				});
 
 				/**
-				 * Key Event.
+				 * Key Event
 				 */
 				function KeyEvent(event) {
 					this.key = event.which || event.keyCode;
 				}
 
-				/**
-				 * Key event handling through view component's tree.
-				 */
+				// key event handling through view component's tree.
 
 				window.addEventListener('keydown', function(event) {
 					view._keyDown(new KeyEvent(event));
@@ -797,6 +818,7 @@ var Absolut;
 		Panel : Panel,
 		Link : Link,
 		View : View,
+		Resize : Resize,
 		MouseDown : MouseDown,
 		MouseMove : MouseMove,
 		MouseClick : MouseClick,
@@ -811,5 +833,5 @@ var Absolut;
 
 // export
 
-if (typeof module !== 'undefined')
+if (typeof module === 'object' && module.exports)
 	module.exports = Absolut;
