@@ -318,7 +318,7 @@ var Absolut;
 	/**
 	 * Absolut core
 	 */
-	var Component, Behavior, Panel, View, MouseDown, MouseMove, MouseClick, MouseUp, MouseDrag, KeyDown, KeyUp, KeyPress;
+	var Component, Behavior, Panel, Button, View, MouseDown, MouseMove, MouseClick, MouseUp, MouseDrag, KeyDown, KeyUp, KeyPress;
 	(function() {
 
 		/**
@@ -340,7 +340,6 @@ var Absolut;
 				this._mouse = {};
 				this._children = [];
 				this._behaviors = [];
-				this._prevDisplay = '';
 			},
 
 			// element
@@ -542,55 +541,30 @@ var Absolut;
 			},
 
 			add : function(that) {
-
 				ass.isType(that, [Component, Behavior]);
-
 				if (that instanceof Component) {
 					this._children.push(that);
 					that._parent = this;
 				} else if (that instanceof Behavior) {
 					this._behaviors.push(that);
 				}
-
 				return that;
 			},
 
 			// visibility
 
-			visible : function(visible) {
-
-				if (visible === undefined)
-					return this._elem.style.display !== 'none';
-
-				var style = this._elem.style;
-
-				if (style.display !== 'none') {
-					this._prevDisplay = style.display;
+			visible : function() {
+				switch (arguments.length) {
+					case 0 :
+						return this._elem.style.visibility !== 'hidden';
+					case 1:
+						this._elem.style.visibility = arguments[0] ? 'visible' : 'hidden';
 				}
-
-				if (visible) {
-
-					if (this._prevDisplay && this._prevDisplay !== 'none') {
-						style.display = this._prevDisplay;
-					} else {
-						style.display = 'block';
-					}
-
-				} else {
-
-					if (style.display && style.display !== 'none') {
-						this._prevDisplay = style.display;
-					}
-
-					style.display = 'none';
-				}
-
 			},
 
 			// location
 
 			location : function() {
-
 				switch (arguments.length) {
 					case 0 :
 						return new Point(this.x(), this.y());
@@ -603,11 +577,9 @@ var Absolut;
 						this.x(arguments[0]);
 						this.y(arguments[1]);
 				}
-
 			},
 
 			x : function() {
-
 				switch (arguments.length) {
 					case 0 :
 						return this._location.x || this._elem.offsetLeft;
@@ -615,11 +587,9 @@ var Absolut;
 						this._location.x = arguments[0];
 						this._elem.style.left = this._px(this._location.x);
 				}
-
 			},
 
 			y : function() {
-
 				switch (arguments.length) {
 					case 0 :
 						return this._location.y || this._elem.offsetTop;
@@ -627,7 +597,6 @@ var Absolut;
 						this._location.y = arguments[0];
 						this._elem.style.top = this._px(this._location.y);
 				}
-
 			},
 
 			absoluteLocation : function() {
@@ -756,12 +725,26 @@ var Absolut;
 		});
 
 		/**
+		 * Button
+		 */
+		Button = Border.extend({
+
+			init : function Button(elem, onClick) {
+				this._super(elem);
+				if (onClick)
+					this.add(new MouseClick(onClick));
+			}
+
+		});
+
+		/**
 		 * Link
 		 */
 		Link = Component.extend({
-			init : function Link(elem, action) {
+			init : function Link(elem, onClick) {
 				this._super(elem);
-				this.add(new MouseDown(action));
+				if (onClick)
+					this.add(new MouseClick(onClick));
 			}
 		});
 
@@ -852,6 +835,7 @@ var Absolut;
 		Behavior : Behavior,
 		Border : Border,
 		Panel : Panel,
+		Button : Button,
 		Link : Link,
 		View : View,
 		Resize : Resize,
