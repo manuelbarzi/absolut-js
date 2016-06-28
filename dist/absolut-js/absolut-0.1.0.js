@@ -730,7 +730,8 @@ var Absolut;
 			// update
 
 			_update : function() {
-				this._setVisible(this.isVisible());
+				this._setVisible(this.parent() ? this.parent().isVisible()
+						&& this.isVisible() : this.isVisible());
 				this._setX(this.getX());
 				this._setY(this.getY());
 				this._setWidth(this.getWidth());
