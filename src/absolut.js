@@ -169,6 +169,14 @@ var Absolut;
 	(function() {
 		elem = {
 
+			isVisible : function(elem) {
+				return elem.style.visibility !== 'hidden';
+			},
+
+			setVisible : function(elem, visible) {
+				elem.style.visibility = visible ? 'visible' : 'hidden';
+			},
+
 			_px : function(val) {
 				return val + 'px';
 			},
@@ -408,7 +416,7 @@ var Absolut;
 			_resize : function(event) {
 				if (this.isVisible()) {
 					this._event(Resize, event);
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._resize(event);
 						}
@@ -435,7 +443,7 @@ var Absolut;
 						}
 					} else if (this._mouse.dragging)
 						this._event(MouseDrag, event);
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._mouseMove(event);
 						}
@@ -449,7 +457,7 @@ var Absolut;
 						this._mouse.pressed = true;
 						this._event(MouseDown, event);
 					}
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._mouseDown(event);
 						}
@@ -463,7 +471,7 @@ var Absolut;
 					if (this._isPointed(event.location)) {
 						this._event(MouseUp, event);
 					}
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._mouseUp(event);
 						}
@@ -474,7 +482,7 @@ var Absolut;
 			_releaseMouse : function() {
 				this._mouse.pressed = false;
 				this._mouse.dragging = false;
-				if (this._children.length > 0) {
+				if (js.notEmpty(this._children)) {
 					for ( var i in this._children) {
 						this._children[i]._releaseMouse();
 					}
@@ -486,7 +494,7 @@ var Absolut;
 					if (this._isPointed(event.location)) {
 						this._event(MouseClick, event);
 					}
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._mouseClick(event);
 						}
@@ -499,7 +507,7 @@ var Absolut;
 			_keyDown : function(event) {
 				if (this.isVisible()) {
 					this._event(KeyDown, event);
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._keyDown(event);
 						}
@@ -510,7 +518,7 @@ var Absolut;
 			_keyUp : function(event) {
 				if (this.isVisible()) {
 					this._event(KeyUp, event);
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._keyUp(event);
 						}
@@ -521,7 +529,7 @@ var Absolut;
 			_keyPress : function(event) {
 				if (this.isVisible()) {
 					this._event(KeyPress, event);
-					if (this._children.length > 0) {
+					if (js.notEmpty(this._children)) {
 						for ( var i in this._children) {
 							this._children[i]._keyPress(event);
 						}
@@ -533,6 +541,106 @@ var Absolut;
 
 			toString : function() {
 				return this._elem.toString();
+			},
+
+			// visibility
+
+			_isVisible : function() {
+				return elem.isVisible(this._elem);
+			},
+
+			_setVisible : function(visible) {
+				elem.setVisible(this._elem, visible);
+			},
+
+			visible : function(visible) {
+				if (js.notDefined(visible))
+					return this.isVisible();
+				this.setVisible(visible);
+			},
+
+			isVisible : function() {
+				return this._visible || this._isVisible();
+			},
+
+			setVisible : function(visible) {
+				this._visible = visible;
+				this._setVisible(visible);
+			},
+
+			// location
+
+			location : function() {
+				if (js.empty(arguments))
+					return this.getLocation();
+				this.setLocation.apply(this, arguments);
+			},
+
+			getLocation : function() {
+				return new Point(this.getX(), this.getY());
+			},
+
+			setLocation : function() {
+				switch (arguments.length) {
+					case 1 :
+						var loc = arguments[0];
+						this.setX(loc.x);
+						this.setY(loc.y);
+						break;
+					case 2 :
+						this.setX(arguments[0]);
+						this.setY(arguments[1]);
+				}
+			},
+
+			_getX : function() {
+				return elem.getX(this._elem);
+			},
+
+			_setX : function(x) {
+				elem.setX(this._elem, x);
+			},
+
+			x : function(x) {
+				if (js.notDefined(x))
+					return this.getX();
+				this.setX(x);
+			},
+
+			getX : function() {
+				return this._location.x || this._getX();
+			},
+
+			setX : function(x) {
+				this._location.x = x;
+				this._setX(x);
+			},
+
+			_getY : function() {
+				return elem.getY(this._elem);
+			},
+
+			_setY : function(y) {
+				elem.setY(this._elem, y);
+			},
+
+			y : function(y) {
+				if (js.notDefined(y))
+					return this.getY();
+				this.setY(y);
+			},
+
+			getY : function() {
+				return this._location.y || this._getY();
+			},
+
+			setY : function(y) {
+				this._location.y = y;
+				this._setY(y);
+			},
+
+			absoluteLocation : function() {
+				return elem.absoluteLocation(this._elem);
 			},
 
 			// dimensions
@@ -619,95 +727,19 @@ var Absolut;
 				return that;
 			},
 
-			// visibility
+			// update
 
-			visible : function(visible) {
-				if (js.notDefined(visible))
-					return this.isVisible();
-				this.setVisible(visible);
-			},
-
-			isVisible : function() {
-				return this._elem.style.visibility !== 'hidden';
-			},
-
-			setVisible : function(visible) {
-				this._elem.style.visibility = visible ? 'visible' : 'hidden';
-			},
-
-			// location
-
-			location : function() {
-				if (js.empty(arguments))
-					return this.getLocation();
-				this.setLocation.apply(this, arguments);
-			},
-
-			getLocation : function() {
-				return new Point(this.getX(), this.getY());
-			},
-
-			setLocation : function() {
-				switch (arguments.length) {
-					case 1 :
-						var loc = arguments[0];
-						this.setX(loc.x);
-						this.setY(loc.y);
-						break;
-					case 2 :
-						this.setX(arguments[0]);
-						this.setY(arguments[1]);
+			_update : function() {
+				this._setVisible(this.isVisible());
+				this._setX(this.getX());
+				this._setY(this.getY());
+				this._setWidth(this.getWidth());
+				this._setHeight(this.getHeight());
+				if (js.notEmpty(this._children)) {
+					for ( var i in this._children) {
+						this._children[i]._update();
+					}
 				}
-			},
-
-			_getX : function() {
-				return elem.getX(this._elem);
-			},
-
-			_setX : function(x) {
-				elem.setX(this._elem, x);
-			},
-
-			x : function(x) {
-				if (js.notDefined(x))
-					return this.getX();
-				this.setX(x);
-			},
-
-			getX : function() {
-				return this._location.x || this._getX();
-			},
-
-			setX : function(x) {
-				this._location.x = x;
-				this._setX(x);
-			},
-
-			_getY : function() {
-				return elem.getY(this._elem);
-			},
-
-			_setY : function(y) {
-				elem.setY(this._elem, y);
-			},
-
-			y : function(y) {
-				if (js.notDefined(y))
-					return this.getY();
-				this.setY(y);
-			},
-
-			getY : function() {
-				return this._location.y || this._getY();
-			},
-
-			setY : function(y) {
-				this._location.y = y;
-				this._setY(y);
-			},
-
-			absoluteLocation : function() {
-				return elem.absoluteLocation(this._elem);
 			}
 
 		});
@@ -864,7 +896,7 @@ var Absolut;
 
 				this._super(elem_);
 
-				var view = this;
+				var self = this;
 
 				/**
 				 * Window Event
@@ -876,7 +908,7 @@ var Absolut;
 				// window event handling through view component's tree
 
 				window.addEventListener('resize', function(event) {
-					view._resize(new WindowEvent(event));
+					self._resize(new WindowEvent(event));
 				});
 
 				/**
@@ -889,19 +921,19 @@ var Absolut;
 				// mouse event handling through view component's tree
 
 				window.addEventListener('mousemove', function(event) {
-					view._mouseMove(new MouseEvent(event));
+					self._mouseMove(new MouseEvent(event));
 				});
 
 				window.addEventListener('mousedown', function(event) {
-					view._mouseDown(new MouseEvent(event));
+					self._mouseDown(new MouseEvent(event));
 				});
 
 				window.addEventListener('mouseup', function(event) {
-					view._mouseUp(new MouseEvent(event));
+					self._mouseUp(new MouseEvent(event));
 				});
 
 				window.addEventListener('click', function(event) {
-					view._mouseClick(new MouseEvent(event));
+					self._mouseClick(new MouseEvent(event));
 				});
 
 				/**
@@ -914,27 +946,27 @@ var Absolut;
 				// key event handling through view component's tree.
 
 				window.addEventListener('keydown', function(event) {
-					view._keyDown(new KeyEvent(event));
+					self._keyDown(new KeyEvent(event));
 				});
 
 				window.addEventListener('keyup', function(event) {
-					view._keyUp(new KeyEvent(event));
+					self._keyUp(new KeyEvent(event));
 				});
 
 				window.addEventListener('keypress', function(event) {
-					view._keyPress(new KeyEvent(event));
+					self._keyPress(new KeyEvent(event));
 				});
 
 				// view refreshing cycle
 
 				setInterval(function() {
-					view.refresh();
-				}, 100);
+					self.refresh();
+				}, 10);
 
 			},
 
 			refresh : function() {
-				var view = this;
+				this._update();
 			}
 
 		});
