@@ -771,7 +771,7 @@ var Absolut;
 
 			init : function Button(elem, onClick) {
 				this._super(elem);
-				if (onClick)
+				if (js.isDefined(onClick))
 					this.add(new MouseClick(onClick));
 			}
 
@@ -783,7 +783,7 @@ var Absolut;
 		Link = Component.extend({
 			init : function Link(elem, onClick) {
 				this._super(elem);
-				if (onClick)
+				if (js.isDefined(onClick))
 					this.add(new MouseClick(onClick));
 			}
 		});
