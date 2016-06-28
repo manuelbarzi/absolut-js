@@ -160,11 +160,50 @@ var Absolut;
 	})();
 
 	/**
-	 * Elem(ent) utils
+	 * elem(ent) utils
+	 * 
+	 * @author manuelbarzi
+	 * @version r1
 	 */
 	var elem;
 	(function() {
 		elem = {
+
+			_px : function(val) {
+				return val + 'px';
+			},
+
+			getX : function(elem) {
+				return elem.offsetLeft;
+			},
+
+			setX : function(elem, x) {
+				elem.style.left = this._px(x);
+			},
+
+			getY : function(elem) {
+				return elem.offsetTop;
+			},
+
+			setY : function(elem, y) {
+				elem.style.top = this._px(y);
+			},
+
+			getWidth : function(elem) {
+				return elem.offsetWidth;
+			},
+
+			setWidth : function(elem, width) {
+				elem.style.width = this._px(width);
+			},
+
+			getHeight : function(elem) {
+				return elem.offsetHeight;
+			},
+
+			setHeight : function(elem, height) {
+				elem.style.height = this._px(height);
+			},
 
 			/**
 			 * Gets element absolute location.
@@ -336,9 +375,10 @@ var Absolut;
 				elem.style.margin = '0';
 				elem.style.padding = '0';
 
-				this._location = {};
-				this._size = {};
 				this._elem = elem;
+				this._visible = true;
+				this._location = new Point(this._getX(), this._getY());
+				this._size = new Size(this._getWidth(), this._getHeight());
 				this._mouse = {};
 				this._children = [];
 				this._behaviors = [];
@@ -380,9 +420,8 @@ var Absolut;
 
 			_isPointed : function(p) {
 				var pos = this.absoluteLocation(), pointed = pos.x <= p.x
-						&& p.x <= pos.x + this._elem.offsetWidth
-						&& pos.y <= p.y
-						&& p.y <= pos.y + this._elem.offsetHeight;
+						&& p.x <= pos.x + this._getWidth() && pos.y <= p.y
+						&& p.y <= pos.y + this._getHeight();
 				return pointed;
 			},
 
@@ -498,8 +537,12 @@ var Absolut;
 
 			// dimensions
 
-			_px : function(val) {
-				return val + 'px';
+			_getWidth : function() {
+				return elem.getWidth(this._elem);
+			},
+
+			_setWidth : function(width) {
+				elem.setWidth(this._elem, width);
 			},
 
 			width : function(width) {
@@ -509,12 +552,20 @@ var Absolut;
 			},
 
 			getWidth : function() {
-				return this._size.width || this._elem.offsetWidth;
+				return this._size.width || this._getWidth();
 			},
 
 			setWidth : function(width) {
 				this._size.width = width;
-				this._elem.style.width = this._px(this._size.width);
+				this._setWidth(width);
+			},
+
+			_getHeight : function() {
+				return elem.getHeight(this._elem);
+			},
+
+			_setHeight : function(height) {
+				elem.setHeight(this._elem, height);
 			},
 
 			height : function(height) {
@@ -524,16 +575,16 @@ var Absolut;
 			},
 
 			getHeight : function() {
-				return this._size.height || this._elem.offsetHeight;
+				return this._size.height || this._getHeight();
 			},
 
 			setHeight : function(height) {
 				this._size.height = height;
-				this._elem.style.height = this._px(this._size.height);
+				this._setHeight(height);
 			},
 
 			size : function() {
-				if (arguments.length === 0)
+				if (js.empty(arguments))
 					return this.getSize();
 				this.setSize.apply(this, arguments);
 			},
@@ -587,7 +638,7 @@ var Absolut;
 			// location
 
 			location : function() {
-				if (arguments.length === 0)
+				if (js.empty(arguments))
 					return this.getLocation();
 				this.setLocation.apply(this, arguments);
 			},
@@ -609,6 +660,14 @@ var Absolut;
 				}
 			},
 
+			_getX : function() {
+				return elem.getX(this._elem);
+			},
+
+			_setX : function(x) {
+				elem.setX(this._elem, x);
+			},
+
 			x : function(x) {
 				if (js.notDefined(x))
 					return this.getX();
@@ -616,12 +675,20 @@ var Absolut;
 			},
 
 			getX : function() {
-				return this._location.x || this._elem.offsetLeft;
+				return this._location.x || this._getX();
 			},
 
 			setX : function(x) {
 				this._location.x = x;
-				this._elem.style.left = this._px(this._location.x);
+				this._setX(x);
+			},
+
+			_getY : function() {
+				return elem.getY(this._elem);
+			},
+
+			_setY : function(y) {
+				elem.setY(this._elem, y);
 			},
 
 			y : function(y) {
@@ -631,12 +698,12 @@ var Absolut;
 			},
 
 			getY : function() {
-				return this._location.y || this._elem.offsetTop;
+				return this._location.y || this._getY();
 			},
 
 			setY : function(y) {
 				this._location.y = y;
-				this._elem.style.top = this._px(this._location.y);
+				this._setY(y);
 			},
 
 			absoluteLocation : function() {
@@ -858,6 +925,16 @@ var Absolut;
 					view._keyPress(new KeyEvent(event));
 				});
 
+				// view refreshing cycle
+
+				setInterval(function() {
+					view.refresh();
+				}, 100);
+
+			},
+
+			refresh : function() {
+				var view = this;
 			}
 
 		});
