@@ -384,7 +384,7 @@ var Absolut;
 				elem.style.padding = '0';
 
 				this._elem = elem;
-				this._visible = true;
+				this._visible = this._isVisible();
 				this._location = new Point(this._getX(), this._getY());
 				this._size = new Size(this._getWidth(), this._getHeight());
 				this._mouse = {};
@@ -560,7 +560,7 @@ var Absolut;
 			},
 
 			isVisible : function() {
-				return this._visible || this._isVisible();
+				return this._visible;
 			},
 
 			setVisible : function(visible) {
