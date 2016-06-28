@@ -19,17 +19,19 @@ var Absolut;
 
 		js = {
 
-			// existence
+			// objects
 
 			not : function(obj) {
 				return !obj;
 			},
 
+			isDefined : function(obj) {
+				return obj !== undefined;
+			},
+
 			notDefined : function(obj) {
 				return obj === undefined;
 			},
-
-			// objects
 
 			typeOf : function(obj) {
 				return this.isFunction(obj)
@@ -111,8 +113,8 @@ var Absolut;
 
 			size : function() {
 				return {
-					width : this.width(),
-					height : this.height()
+					width : this.getWidth(),
+					height : this.getHeight()
 				};
 			}
 
@@ -364,7 +366,7 @@ var Absolut;
 			// window event handling
 
 			_resize : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					this._event(Resize, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -385,7 +387,7 @@ var Absolut;
 			},
 
 			_mouseMove : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					if (this._isPointed(event.location)) {
 						this._event(MouseMove, event);
 						if (this._mouse.pressed) {
@@ -403,7 +405,7 @@ var Absolut;
 			},
 
 			_mouseDown : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					if (this._isPointed(event.location)) {
 						this._mouse.pressed = true;
 						this._event(MouseDown, event);
@@ -418,7 +420,7 @@ var Absolut;
 
 			_mouseUp : function(event) {
 				this._releaseMouse();
-				if (this.visible()) {
+				if (this.isVisible()) {
 					if (this._isPointed(event.location)) {
 						this._event(MouseUp, event);
 					}
@@ -441,7 +443,7 @@ var Absolut;
 			},
 
 			_mouseClick : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					if (this._isPointed(event.location)) {
 						this._event(MouseClick, event);
 					}
@@ -456,7 +458,7 @@ var Absolut;
 			// key event handling
 
 			_keyDown : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					this._event(KeyDown, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -467,7 +469,7 @@ var Absolut;
 			},
 
 			_keyUp : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					this._event(KeyUp, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -478,7 +480,7 @@ var Absolut;
 			},
 
 			_keyPress : function(event) {
-				if (this.visible()) {
+				if (this.isVisible()) {
 					this._event(KeyPress, event);
 					if (this._children.length > 0) {
 						for ( var i in this._children) {
@@ -500,34 +502,49 @@ var Absolut;
 				return val + 'px';
 			},
 
-			width : function() {
-				switch (arguments.length) {
-					case 0 :
-						return this._size.width || this._elem.offsetWidth;
-					case 1 :
-						this._size.width = arguments[0];
-						this._elem.style.width = this._px(this._size.width);
-				}
+			width : function(width) {
+				if (js.notDefined(width))
+					return this.getWidth();
+				this.setWidth(width);
 			},
 
-			height : function() {
-				switch (arguments.length) {
-					case 0 :
-						return this._size.height || this._elem.offsetHeight;
-					case 1 :
-						this._size.height = arguments[0];
-						this._elem.style.height = this._px(this._size.height);
-				}
+			getWidth : function() {
+				return this._size.width || this._elem.offsetWidth;
+			},
+
+			setWidth : function(width) {
+				this._size.width = width;
+				this._elem.style.width = this._px(this._size.width);
+			},
+
+			height : function(height) {
+				if (js.notDefined(height))
+					return this.getHeight();
+				this.setHeight(height);
+			},
+
+			getHeight : function() {
+				return this._size.height || this._elem.offsetHeight;
+			},
+
+			setHeight : function(height) {
+				this._size.height = height;
+				this._elem.style.height = this._px(this._size.height);
 			},
 
 			size : function() {
-				switch (arguments.length) {
-					case 0 :
-						return new Size(this.width(), this.height());
-					case 2 :
-						this.width(arguments[0]);
-						this.height(arguments[1]);
-				}
+				if (arguments.length === 0)
+					return this.getSize();
+				this.setSize.apply(this, arguments);
+			},
+
+			getSize : function() {
+				return new Size(this.getWidth(), this.getHeight());
+			},
+
+			setSize : function(width, height) {
+				this.setWidth(width);
+				this.setHeight(height);
 			},
 
 			// composition
@@ -553,50 +570,73 @@ var Absolut;
 
 			// visibility
 
-			visible : function() {
-				switch (arguments.length) {
-					case 0 :
-						return this._elem.style.visibility !== 'hidden';
-					case 1:
-						this._elem.style.visibility = arguments[0] ? 'visible' : 'hidden';
-				}
+			visible : function(visible) {
+				if (js.notDefined(visible))
+					return this.isVisible();
+				this.setVisible(visible);
+			},
+
+			isVisible : function() {
+				return this._elem.style.visibility !== 'hidden';
+			},
+
+			setVisible : function(visible) {
+				this._elem.style.visibility = visible ? 'visible' : 'hidden';
 			},
 
 			// location
 
 			location : function() {
+				if (arguments.length === 0)
+					return this.getLocation();
+				this.setLocation.apply(this, arguments);
+			},
+
+			getLocation : function() {
+				return new Point(this.getX(), this.getY());
+			},
+
+			setLocation : function() {
 				switch (arguments.length) {
-					case 0 :
-						return new Point(this.x(), this.y());
 					case 1 :
 						var loc = arguments[0];
-						this.x(loc.x);
-						this.y(loc.y);
+						this.setX(loc.x);
+						this.setY(loc.y);
 						break;
 					case 2 :
-						this.x(arguments[0]);
-						this.y(arguments[1]);
+						this.setX(arguments[0]);
+						this.setY(arguments[1]);
 				}
 			},
 
-			x : function() {
-				switch (arguments.length) {
-					case 0 :
-						return this._location.x || this._elem.offsetLeft;
-					case 1 :
-						this._location.x = arguments[0];
-						this._elem.style.left = this._px(this._location.x);
-				}
+			x : function(x) {
+				if (js.notDefined(x))
+					return this.getX();
+				this.setX(x);
 			},
 
-			y : function() {
-				switch (arguments.length) {
-					case 0 :
-						return this._location.y || this._elem.offsetTop;
-					case 1 :
-						this._location.y = arguments[0];
-						this._elem.style.top = this._px(this._location.y);
-				}
+			getX : function() {
+				return this._location.x || this._elem.offsetLeft;
+			},
+
+			setX : function(x) {
+				this._location.x = x;
+				this._elem.style.left = this._px(this._location.x);
+			},
+
+			y : function(y) {
+				if (js.notDefined(y))
+					return this.getY();
+				this.setY(y);
+			},
+
+			getY : function() {
+				return this._location.y || this._elem.offsetTop;
+			},
+
+			setY : function(y) {
+				this._location.y = y;
+				this._elem.style.top = this._px(this._location.y);
 			},
 
 			absoluteLocation : function() {
