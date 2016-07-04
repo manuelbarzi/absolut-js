@@ -174,7 +174,7 @@ var Absolut;
 			},
 
 			setVisible : function(elem, visible) {
-				elem.style.visibility = visible ? 'visible' : 'hidden';
+				elem.style.visibility = visible ? 'inherit' : 'hidden';
 			},
 
 			_px : function(val) {
@@ -265,8 +265,8 @@ var Absolut;
 			// Copy the properties over onto the new prototype
 			for ( var name in prop) {
 				// Check if we're overwriting an existing function
-				prototype[name] = typeof prop[name] == "function"
-						&& typeof _super[name] == "function"
+				prototype[name] = typeof prop[name] == 'function'
+						&& typeof _super[name] == 'function'
 						&& fnTest.test(prop[name]) ? (function(name, fn) {
 					return function() {
 						var tmp = this._super;
@@ -730,8 +730,7 @@ var Absolut;
 			// update
 
 			_update : function() {
-				this._setVisible(this.parent() ? this.parent().isVisible()
-						&& this.isVisible() : this.isVisible());
+				this._setVisible(this.isVisible());
 				this._setX(this.getX());
 				this._setY(this.getY());
 				this._setWidth(this.getWidth());

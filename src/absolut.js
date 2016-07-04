@@ -174,7 +174,7 @@ var Absolut;
 			},
 
 			setVisible : function(elem, visible) {
-				elem.style.visibility = visible ? 'visible' : 'hidden';
+				elem.style.visibility = visible ? 'inherit' : 'hidden';
 			},
 
 			_px : function(val) {
@@ -730,8 +730,7 @@ var Absolut;
 			// update
 
 			_update : function() {
-				this._setVisible(this.parent() ? this.parent().isVisible()
-						&& this.isVisible() : this.isVisible());
+				this._setVisible(this.isVisible());
 				this._setX(this.getX());
 				this._setY(this.getY());
 				this._setWidth(this.getWidth());
