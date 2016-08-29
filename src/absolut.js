@@ -380,8 +380,6 @@ var Absolut;
 				ass.isType(elem, HTMLElement);
 
 				elem.style.position = 'absolute';
-				elem.style.margin = '0';
-				elem.style.padding = '0';
 
 				this._elem = elem;
 				this._visible = this._isVisible();
