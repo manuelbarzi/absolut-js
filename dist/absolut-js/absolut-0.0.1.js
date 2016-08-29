@@ -3,7 +3,7 @@
  * 
  * JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
  * 
- * @version 0.1.0
+ * @version 0.0.1
  * 
  * @author manuelbarzi
  */
