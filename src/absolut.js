@@ -177,40 +177,36 @@ var Absolut;
 				elem.style.visibility = visible ? 'inherit' : 'hidden';
 			},
 
-			_px : function(val) {
-				return val + 'px';
-			},
-
 			getX : function(elem) {
-				return elem.offsetLeft;
+				return elem.getBoundingClientRect().left;
 			},
 
 			setX : function(elem, x) {
-				elem.style.left = this._px(x);
+				elem.style.left = x;
 			},
 
 			getY : function(elem) {
-				return elem.offsetTop;
+				return elem.getBoundingClientRect().top;
 			},
 
 			setY : function(elem, y) {
-				elem.style.top = this._px(y);
+				elem.style.top = y;
 			},
 
 			getWidth : function(elem) {
-				return elem.offsetWidth;
+				return elem.getBoundingClientRect().width;
 			},
 
 			setWidth : function(elem, width) {
-				elem.style.width = this._px(width);
+				elem.style.width = width;
 			},
 
 			getHeight : function(elem) {
-				return elem.offsetHeight;
+				return elem.getBoundingClientRect().height;
 			},
 
 			setHeight : function(elem, height) {
-				elem.style.height = this._px(height);
+				elem.style.height = height;
 			},
 
 			/**
@@ -606,7 +602,7 @@ var Absolut;
 			},
 
 			getX : function() {
-				return this._location.x === undefined? this._getX() : this._location.x;
+				return this._location.x;
 			},
 
 			setX : function(x) {
@@ -629,7 +625,7 @@ var Absolut;
 			},
 
 			getY : function() {
-				return this._location.y === undefined? this._getY() : this._location.y;
+				return this._location.y;
 			},
 
 			setY : function(y) {
@@ -658,7 +654,7 @@ var Absolut;
 			},
 
 			getWidth : function() {
-				return this._size.width === undefined? this._getWidth() : this._size.width;
+				return this._size.width;
 			},
 
 			setWidth : function(width) {
@@ -681,7 +677,7 @@ var Absolut;
 			},
 
 			getHeight : function() {
-				return this._size.height === undefined? this._getHeight() : this._size.height;
+				return this._size.height;
 			},
 
 			setHeight : function(height) {

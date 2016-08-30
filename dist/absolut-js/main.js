@@ -49,7 +49,6 @@
 		var movingBodyDesc = new Absolut.Panel(document
 				.getElementById('moving-body-desc'));
 
-		movingBodyDesc.width(300);
 		movingBodyDesc.location((view.width() - movingBodyDesc.width()) / 2,
 				movingBodyTitle.location().y + movingBodyTitle.height() + 5);
 
