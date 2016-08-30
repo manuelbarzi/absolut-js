@@ -3,7 +3,7 @@
  * 
  * JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
  * 
- * @version 0.1.0
+ * @version 0.0.2
  * 
  * @author manuelbarzi
  */
@@ -608,7 +608,7 @@ var Absolut;
 			},
 
 			getX : function() {
-				return this._location.x || this._getX();
+				return this._location.x === undefined? this._getX() : this._location.x;
 			},
 
 			setX : function(x) {
@@ -631,7 +631,7 @@ var Absolut;
 			},
 
 			getY : function() {
-				return this._location.y || this._getY();
+				return this._location.y === undefined? this._getY() : this._location.y;
 			},
 
 			setY : function(y) {
@@ -660,7 +660,7 @@ var Absolut;
 			},
 
 			getWidth : function() {
-				return this._size.width || this._getWidth();
+				return this._size.width === undefined? this._getWidth() : this._size.width;
 			},
 
 			setWidth : function(width) {
@@ -683,7 +683,7 @@ var Absolut;
 			},
 
 			getHeight : function() {
-				return this._size.height || this._getHeight();
+				return this._size.height === undefined? this._getHeight() : this._size.height;
 			},
 
 			setHeight : function(height) {
@@ -940,7 +940,7 @@ var Absolut;
 				 * Key Event
 				 */
 				function KeyEvent(event) {
-					this.key = event.which || event.keyCode;
+					this.key = event.which === undefined? event.keyCode : event.which;
 				}
 
 				// key event handling through view component's tree.
