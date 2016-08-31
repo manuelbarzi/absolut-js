@@ -781,14 +781,14 @@ var Absolut;
         // base components
 
         /**
-         * Border
+         * Panel
          */
-        Border = Component
+        Panel = Component
             .extend({
 
-                init: function Border(elem) {
+                init: function Panel(elem) {
                     this._super(elem);
-                    this.backgroundColor('transparent');
+                    this.backgroundColor('white');
                     this.borderColor('black');
                     this.borderWidth(1);
                     this.borderStyle('solid');
@@ -821,21 +821,9 @@ var Absolut;
             });
 
         /**
-         * Panel
-         */
-        Panel = Border.extend({
-
-            init: function Panel(elem) {
-                this._super(elem);
-                this.backgroundColor('white');
-            }
-
-        });
-
-        /**
          * Button
          */
-        Button = Border.extend({
+        Button = Panel.extend({
 
             init: function Button(elem, onClick) {
                 this._super(elem);
@@ -944,7 +932,6 @@ var Absolut;
         Point: Point,
         Component: Component,
         Behavior: Behavior,
-        Border: Border,
         Panel: Panel,
         Button: Button,
         Link: Link,
