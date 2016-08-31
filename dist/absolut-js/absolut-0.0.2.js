@@ -918,10 +918,6 @@ var Absolut;
                 window.addEventListener('keypress', function(event) {
                     self._keyPress(new KeyEvent(event));
                 });
-            },
-
-            start: function() {
-                var self = this;
 
                 // view refreshing cycle
 
