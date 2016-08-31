@@ -830,10 +830,10 @@ var Absolut;
          */
         Button = Panel.extend({
 
-            init: function Button(elem, onClick) {
+            init: function Button(elem, click) {
                 this._super(elem);
-                if (js.isDefined(onClick))
-                    this.add(new MouseClick(onClick));
+                if (js.isDefined(click))
+                    this.add(new MouseClick(click));
             }
 
         });
@@ -842,10 +842,10 @@ var Absolut;
          * Link
          */
         Link = Component.extend({
-            init: function Link(elem, onClick) {
+            init: function Link(elem, click) {
                 this._super(elem);
-                if (js.isDefined(onClick))
-                    this.add(new MouseClick(onClick));
+                if (js.isDefined(click))
+                    this.add(new MouseClick(click));
             }
         });
 
