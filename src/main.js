@@ -272,7 +272,7 @@
 
         movingBodyPanel.size(300, 300);
         movingBodyPanel.location((view.width() - movingBodyPanel.width()) / 2,
-            movingBodyDesc.location().y + movingBodyDesc.height() + 5);
+            movingBodyDesc.y() + movingBodyDesc.height() + 5);
         movingBodyPanel.backgroundColor('lightgray');
 
         // moving body instantiation and inclusion to the view

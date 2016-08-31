@@ -538,11 +538,12 @@ var Absolut;
             // visibility
 
             isVisible: function() {
-                return elem.isVisible(this._elem);
+                return js.notDefined(this._visible) ? elem.isVisible(this._elem) : this._visible;
             },
 
             setVisible: function(visible) {
-                elem.setVisible(this._elem, visible);
+                if (js.isDefined(visible))
+                    elem.setVisible(this._elem, this._visible = visible);
             },
 
             visible: function(visible) {
@@ -577,11 +578,12 @@ var Absolut;
             },
 
             getX: function() {
-                return elem.getX(this._elem);
+                return js.notDefined(this._x) ? elem.getX(this._elem) : this._x;
             },
 
             setX: function(x) {
-                elem.setX(this._elem, x);
+                if (js.isDefined(x))
+                    elem.setX(this._elem, this._x = x);
             },
 
             x: function(x) {
@@ -591,11 +593,12 @@ var Absolut;
             },
 
             getY: function() {
-                return elem.getY(this._elem);
+                return js.notDefined(this._y) ? elem.getY(this._elem) : this._y;
             },
 
             setY: function(y) {
-                elem.setY(this._elem, y);
+                if (js.isDefined(y))
+                    elem.setY(this._elem, this._y = y);
             },
 
             y: function(y) {
@@ -611,11 +614,12 @@ var Absolut;
             // dimensions
 
             getWidth: function() {
-                return elem.getWidth(this._elem);
+                return js.notDefined(this._width) ? elem.getWidth(this._elem) : this._width;
             },
 
             setWidth: function(width) {
-                elem.setWidth(this._elem, width);
+                if (js.isDefined(width))
+                    elem.setWidth(this._elem, this._width = width);
             },
 
             width: function(width) {
@@ -625,11 +629,12 @@ var Absolut;
             },
 
             getHeight: function() {
-                return elem.getHeight(this._elem);
+                return js.notDefined(this._height) ? elem.getHeight(this._elem) : this._height;
             },
 
             setHeight: function(height) {
-                elem.setHeight(this._elem, height);
+                if (js.isDefined(height))
+                    elem.setHeight(this._elem, this._height = height);
             },
 
             height: function(height) {
@@ -690,7 +695,7 @@ var Absolut;
                 this.setRefreshable(refreshable);
             },
 
-            _refreshCycle: function() {
+            _refresh: function() {
                 if (this.isRefreshable()) {
                     this.setVisible(this.isVisible());
                     this.setX(this.getX());
@@ -700,7 +705,7 @@ var Absolut;
                 }
                 if (js.notEmpty(this._children)) {
                     for (var i in this._children) {
-                        this._children[i]._refreshCycle();
+                        this._children[i]._refresh();
                     }
                 }
             }
@@ -897,7 +902,7 @@ var Absolut;
                  * Key Event
                  */
                 function KeyEvent(event) {
-                    this.key = event.which === undefined ? event.keyCode : event.which;
+                    this.key = js.notDefined(event.which) ? event.keyCode : event.which;
                 }
 
                 // key event handling through view component's tree.
@@ -917,7 +922,7 @@ var Absolut;
                 // view refreshing cycle
 
                 setInterval(function() {
-                    self._refreshCycle();
+                    self._refresh();
                 }, 10);
             }
         });
