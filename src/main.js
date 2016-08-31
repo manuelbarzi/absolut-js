@@ -8,19 +8,28 @@
          */
 
         var view = new Absolut.View(document.getElementById('view'));
-
+        view.borderWidth(0);
         view.visible(true);
-
         view.size(400, 1000);
         view.location((Absolut.window.width() - view.width()) / 2, 0);
         view.add(new Absolut.Resize(function(event) {
             view.location((Absolut.window.width() - view.width()) / 2, 0);
         }));
-        view.color('transparent');
+        view.backgroundColor('transparent');
+
+        // custom panel (with no border and transparent background)
+
+        var Panel = Absolut.Panel.extend({
+            init: function Panel(elem) {
+                this._super(elem);
+                this.backgroundColor('transparent');
+                this.borderWidth(0);
+            }
+        });
 
         // logo
 
-        var logo = new Absolut.Panel(document.getElementById('logo'));
+        var logo = new Panel(document.getElementById('logo'));
 
         logo.location((view.width() - logo.width()) / 2, 50);
 
@@ -28,7 +37,7 @@
 
         // description
 
-        var desc = new Absolut.Panel(document.getElementById('desc'));
+        var desc = new Panel(document.getElementById('desc'));
 
         desc.location((view.width() - desc.width()) / 2, logo.location().y +
             logo.height() + 50);
@@ -36,7 +45,7 @@
         view.add(desc);
 
         // moving body title
-        var movingBodyTitle = new Absolut.Panel(document
+        var movingBodyTitle = new Panel(document
             .getElementById('moving-body-title'));
 
         movingBodyTitle.location((view.width() - movingBodyTitle.width()) / 2,
@@ -46,7 +55,7 @@
 
         // moving body description
 
-        var movingBodyDesc = new Absolut.Panel(document
+        var movingBodyDesc = new Panel(document
             .getElementById('moving-body-desc'));
 
         movingBodyDesc.width(300);
@@ -63,7 +72,7 @@
          * 
          */
 
-        var MovingBody = Absolut.Panel.extend({
+        var MovingBody = Panel.extend({
 
             init: function MovingBody(bodyElem) {
 
@@ -72,7 +81,7 @@
                 var body = this;
 
                 body.size(20, 200);
-                body.color('black');
+                body.backgroundColor('black');
 
                 var diff;
 
@@ -88,7 +97,7 @@
                             event.location.y - diff.y);
                 }));
 
-                var Eye = Absolut.Panel.extend({
+                var Eye = Panel.extend({
 
                     init: function Eye(eyeElem) {
 
@@ -97,7 +106,7 @@
                         var eye = this;
 
                         eye.size(50, 50);
-                        eye.color('white');
+                        eye.backgroundColor('white');
 
                         var diff;
 
@@ -113,7 +122,7 @@
                                     event.location.y - diff.y);
                         }));
 
-                        var Iris = Absolut.Panel.extend({
+                        var Iris = Panel.extend({
 
                             init: function Iris(elem) {
 
@@ -123,7 +132,7 @@
 
                                 iris.location(0, 30);
                                 iris.size(20, 20);
-                                iris.color('black');
+                                iris.backgroundColor('black');
 
                                 var loc = iris.location(),
                                     i = 0,
@@ -154,7 +163,7 @@
 
                 });
 
-                var Mouth = Absolut.Panel.extend({
+                var Mouth = Panel.extend({
 
                     init: function Mouth(mouthElem) {
 
@@ -163,7 +172,7 @@
                         var mouth = this;
 
                         mouth.size(50, 50);
-                        mouth.color('transparent');
+                        mouth.backgroundColor('transparent');
 
                         var diff;
 
@@ -179,7 +188,7 @@
                                     event.location.y - diff.y);
                         }));
 
-                        var Lip = Absolut.Panel.extend({
+                        var Lip = Panel.extend({
 
                             init: function Lip(elem) {
 
@@ -188,7 +197,7 @@
                                 var lip = this;
 
                                 lip.size(mouth.width(), mouth.height() / 3);
-                                lip.color('red');
+                                lip.backgroundColor('red');
                             }
 
                         });
@@ -258,13 +267,13 @@
 
         // moving body panel
 
-        var movingBodyPanel = new Absolut.Panel(document
+        var movingBodyPanel = new Panel(document
             .getElementById('moving-body-panel'));
 
         movingBodyPanel.size(300, 300);
         movingBodyPanel.location((view.width() - movingBodyPanel.width()) / 2,
             movingBodyDesc.location().y + movingBodyDesc.height() + 5);
-        movingBodyPanel.color('lightgray');
+        movingBodyPanel.backgroundColor('lightgray');
 
         // moving body instantiation and inclusion to the view
 
@@ -279,7 +288,7 @@
 
         // moving body footer
 
-        var movingBodyFooter = new Absolut.Panel(document
+        var movingBodyFooter = new Panel(document
             .getElementById('moving-body-footer'));
 
         movingBodyFooter.location(
@@ -294,7 +303,7 @@
          */
 
         // footer
-        var footer = new Absolut.Panel(document.getElementById('footer'));
+        var footer = new Panel(document.getElementById('footer'));
 
         footer.location((view.width() - footer.width()) / 2, movingBodyFooter
             .location().y +

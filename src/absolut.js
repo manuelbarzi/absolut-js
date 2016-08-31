@@ -788,28 +788,34 @@ var Absolut;
 
                 init: function Border(elem) {
                     this._super(elem);
-                    this._color = 'transparent';
-                    this._borderColor = 'magenta';
-                    this._borderWidth = 1;
+                    this.backgroundColor('transparent');
+                    this.borderColor('black');
+                    this.borderWidth(1);
+                    this.borderStyle('solid');
                 },
 
-                color: function(color) {
-                    if (js.not(color))
-                        return this._color;
-                    this._elem.style.backgroundColor = this._color = color;
+                backgroundColor: function(backgroundColor) {
+                    if (js.not(backgroundColor))
+                        return this._elem.style.backgroundColor;
+                    this._elem.style.backgroundColor = backgroundColor;
                 },
 
                 borderColor: function(borderColor) {
-                    if (js.not(borderColor))
-                        return this._borderColor;
-                    this._elem.style.borderColor = this._borderColor = borderColor;
+                    if (js.notDefined(borderColor))
+                        return this._elem.style.borderColor;
+                    this._elem.style.borderColor = borderColor;
                 },
 
                 borderWidth: function(borderWidth) {
-                    if (js.not(borderWidth))
-                        return this._borderWidth;
-                    this._elem.style.borderWidth = (this._borderWidth = borderWidth) +
-                        'px';
+                    if (js.notDefined(borderWidth))
+                        return this._elem.style.borderWidth;
+                    this._elem.style.borderWidth = borderWidth;
+                },
+
+                borderStyle: function(borderStyle) {
+                    if (js.notDefined(borderStyle))
+                        return this._elem.style.borderStyle;
+                    this._elem.style.borderStyle = borderStyle;
                 }
 
             });
@@ -821,6 +827,7 @@ var Absolut;
 
             init: function Panel(elem) {
                 this._super(elem);
+                this.backgroundColor('white');
             }
 
         });
