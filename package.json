@@ -1,5 +1,6 @@
 {
-    "name": "absolut",
+    "name": "absolut-js",
+    "shortname": "absolut",
     "title": "AbsolutJS",
     "description": "JavaScript UI framework that works on absolute HTML, inspired on Java Swing.",
     "version": "0.0.2",

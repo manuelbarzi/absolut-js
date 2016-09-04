@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
     var dir = {
         src: 'src',
-        rel: 'dist/<%= pkg.name %>-js',
+        rel: 'dist/<%= pkg.name %>',
         dist: 'dist'
     };
 
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
                     files: [{
                         expand: true,
                         cwd: dir.src,
-                        src: '<%= pkg.name %>.js',
+                        src: '<%= pkg.shortname %>.js',
                         dest: dir.rel
                     }, {
                         expand: true,
@@ -50,8 +50,8 @@ module.exports = function(grunt) {
                     }],
                     options: {
                         replacements: [{
-                            pattern: '<%= pkg.name %>.js',
-                            replacement: '<%= pkg.name %>-<%= pkg.version %>.min.js'
+                            pattern: '<%= pkg.shortname %>.js',
+                            replacement: '<%= pkg.shortname %>-<%= pkg.version %>.min.js'
                         }, {
                             pattern: /_titl/g,
                             replacement: '<%= pkg.title %>'
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                             replacement: '<%= pkg.author %>'
                         }, {
                             pattern: /_nam/g,
-                            replacement: '<%= pkg.name %>'
+                            replacement: '<%= pkg.shortname %>'
                         }]
                     }
                 }
@@ -75,9 +75,9 @@ module.exports = function(grunt) {
             rename: {
                 main: {
                     files: [{
-                        src: [dir.rel + '/<%= pkg.name %>.js'],
+                        src: [dir.rel + '/<%= pkg.shortname %>.js'],
                         dest: dir.rel +
-                            '/<%= pkg.name %>-<%= pkg.version %>.js'
+                            '/<%= pkg.shortname %>-<%= pkg.version %>.js'
                     }, ]
                 }
             },
@@ -88,9 +88,9 @@ module.exports = function(grunt) {
                 },
                 build: {
                     src: dir.rel +
-                        '/<%= pkg.name %>-<%= pkg.version %>.js',
+                        '/<%= pkg.shortname %>-<%= pkg.version %>.js',
                     dest: dir.rel +
-                        '/<%= pkg.name %>-<%= pkg.version %>.min.js'
+                        '/<%= pkg.shortname %>-<%= pkg.version %>.min.js'
                 }
             },
 
