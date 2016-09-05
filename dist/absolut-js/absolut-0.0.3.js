@@ -1,9 +1,9 @@
 /**
  * AbsolutJS
  * 
- * JavaScript UI framework that works on absolute HTML, inspired on Java Swing.
+ * JavaScript UI framework that works on absolute HTML, inspired by Java Swing.
  * 
- * @version 0.0.2
+ * @version 0.0.3
  * 
  * @author manuelbarzi
  */

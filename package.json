@@ -2,8 +2,8 @@
     "name": "absolut-js",
     "shortname": "absolut",
     "title": "AbsolutJS",
-    "description": "JavaScript UI framework that works on absolute HTML, inspired on Java Swing.",
-    "version": "0.0.2",
+    "description": "JavaScript UI framework that works on absolute HTML, inspired by Java Swing.",
+    "version": "0.0.3",
     "homepage": "http://1nside0ut.com/absolut-js/",
     "repository": {
         "type": "git",
