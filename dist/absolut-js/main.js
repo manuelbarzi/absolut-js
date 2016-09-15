@@ -10,7 +10,7 @@
         var view = new Absolut.View(document.getElementById('view'));
         view.borderWidth(0);
         view.visible(true);
-        view.size(400, 1000);
+        view.size(500, 1000);
         view.location((Absolut.window.width() - view.width()) / 2, 0);
         view.add(new Absolut.Resize(function(event) {
             view.location((Absolut.window.width() - view.width()) / 2, 0);
@@ -31,6 +31,7 @@
 
         var logo = new Panel(document.getElementById('logo'));
 
+        logo.width(400);
         logo.location((view.width() - logo.width()) / 2, 50);
 
         view.add(logo);
