@@ -922,7 +922,7 @@ var Absolut;
 
                 // auto refresh
 
-                this.setAutoRefreshInterval(40);
+                this.autoRefreshInterval(40);
             },
 
             setAutoRefreshInterval: function(interval) {
