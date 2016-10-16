@@ -682,11 +682,11 @@ var Absolut;
             // refreshing
 
             isAutoRefreshable: function() {
-                return this._refreshable;
+                return this._autoRefreshable;
             },
 
             setAutoRefreshable: function(autoRefreshable) {
-                this._refreshable = autoRefreshable;
+                this._autoRefreshable = autoRefreshable;
             },
 
             autoRefreshable: function(autoRefreshable) {
