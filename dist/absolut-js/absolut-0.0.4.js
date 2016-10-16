@@ -3,7 +3,7 @@
  * 
  * JavaScript UI framework that works on absolute HTML.
  * 
- * @version 0.0.3
+ * @version 0.0.4
  * 
  * @author manuelbarzi
  */
@@ -406,7 +406,7 @@ var Absolut;
 
             _resize: function(event) {
                 if (this.isVisible()) {
-                    this._event(Resize, event);
+                    this._event(WindowResize, event);
                     if (js.notEmpty(this._children)) {
                         for (var i in this._children) {
                             this._children[i]._resize(event);
@@ -681,31 +681,35 @@ var Absolut;
 
             // refreshing
 
-            isRefreshable: function() {
+            isAutoRefreshable: function() {
                 return this._refreshable;
             },
 
-            setRefreshable: function(refreshable) {
-                this._refreshable = refreshable;
+            setAutoRefreshable: function(autoRefreshable) {
+                this._refreshable = autoRefreshable;
             },
 
-            refreshable: function(refreshable) {
-                if (js.notDefined(refreshable))
-                    return this.isRefreshable();
-                this.setRefreshable(refreshable);
+            autoRefreshable: function(autoRefreshable) {
+                if (js.notDefined(autoRefreshable))
+                    return this.isAutoRefreshable();
+                this.setAutoRefreshable(autoRefreshable);
             },
 
-            _refresh: function() {
-                if (this.isRefreshable()) {
-                    this.setVisible(this.isVisible());
-                    this.setX(this.getX());
-                    this.setY(this.getY());
-                    this.setWidth(this.getWidth());
-                    this.setHeight(this.getHeight());
+            refresh: function() {
+                this.setVisible(this.isVisible());
+                this.setX(this.getX());
+                this.setY(this.getY());
+                this.setWidth(this.getWidth());
+                this.setHeight(this.getHeight());
+            },
+
+            _tryAutoRefresh: function() {
+                if (this.isAutoRefreshable()) {
+                    this.refresh();
                 }
                 if (js.notEmpty(this._children)) {
                     for (var i in this._children) {
-                        this._children[i]._refresh();
+                        this._children[i]._tryAutoRefresh();
                     }
                 }
             }
@@ -725,8 +729,8 @@ var Absolut;
 
         // window behaviors
 
-        Resize = Behavior.extend({
-            init: function Resize(action) {
+        WindowResize = Behavior.extend({
+            init: function WindowResize(action) {
                 this._super(action);
             }
         });
@@ -853,11 +857,8 @@ var Absolut;
          * View
          */
         View = Panel.extend({
-
             init: function View(elem_) {
-
                 this._super(elem_);
-
                 var self = this;
 
                 /**
@@ -919,11 +920,28 @@ var Absolut;
                     self._keyPress(new KeyEvent(event));
                 });
 
-                // view refreshing cycle
+                // auto refresh
 
-                setInterval(function() {
-                    self._refresh();
-                }, 10);
+                this.setAutoRefreshInterval(40);
+            },
+
+            setAutoRefreshInterval: function(interval) {
+                if (this._autoRefreshIntervalId)
+                    clearInterval(this._autoRefreshIntervalId);
+                var self = this;
+                this._autoRefreshIntervalId = setInterval(function() {
+                    self._tryAutoRefresh();
+                }, this._autoRefreshInterval = interval);
+            },
+
+            getAutoRefreshInterval: function() {
+                return this._autoRefreshInterval;
+            },
+
+            autoRefreshInterval: function(interval) {
+                if (js.notDefined(interval))
+                    return this.getAutoRefreshInterval();
+                this.setAutoRefreshInterval(interval);
             }
         });
     })();
@@ -932,7 +950,7 @@ var Absolut;
 
     Absolut = {
         run: js.run,
-        window: win,
+        Window: win,
         Class: Class,
         Point: Point,
         Component: Component,
@@ -941,7 +959,7 @@ var Absolut;
         Button: Button,
         Link: Link,
         View: View,
-        Resize: Resize,
+        WindowResize: WindowResize,
         MouseDown: MouseDown,
         MouseMove: MouseMove,
         MouseClick: MouseClick,

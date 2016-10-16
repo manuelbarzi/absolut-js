@@ -11,9 +11,9 @@
         view.borderWidth(0);
         view.visible(true);
         view.size(600, 1000);
-        view.location((Absolut.window.width() - view.width()) / 2, 0);
-        view.add(new Absolut.Resize(function(event) {
-            view.location((Absolut.window.width() - view.width()) / 2, 0);
+        view.location((Absolut.Window.width() - view.width()) / 2, 0);
+        view.add(new Absolut.WindowResize(function(event) {
+            view.location((Absolut.Window.width() - view.width()) / 2, 0);
         }));
         view.backgroundColor('transparent');
 
