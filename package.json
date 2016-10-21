@@ -3,7 +3,7 @@
     "shortname": "absolut",
     "title": "AbsolutJS",
     "description": "Object-Oriented JavaScript UI framework that works on absolute HTML.",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "homepage": "http://1nside0ut.com/absolut-js/",
     "repository": {
         "type": "git",
