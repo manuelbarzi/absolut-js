@@ -2,7 +2,7 @@
 
 ##### Usage:
 
-Link Absolut to your web page,
+Link Absolut to your web page:
 
 ```html
 <script type='text/javascript' src='absolut-[current version].min.js'></script>
