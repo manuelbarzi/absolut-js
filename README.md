@@ -8,4 +8,4 @@ Link Absolut to your web page,
 <script type='text/javascript' src='absolut-[current version].min.js'></script>
 ```
 
-Inspect the code demo examples at http://1nside0ut.com/absolut-js/
+See demos at http://1nside0ut.com/absolut-js/
