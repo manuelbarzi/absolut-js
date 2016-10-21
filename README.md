@@ -1,6 +1,6 @@
 ![Alt text](http://www.1nside0ut.com/absolut-js/images/logo.svg "AbsolutJS")
 
-#### JavaScript UI framework that works on absolute HTML.
+#### Object-Oriented JavaScript UI framework that works on absolute HTML.
 
 ##### Usage:
 
