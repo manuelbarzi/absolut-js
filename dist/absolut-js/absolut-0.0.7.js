@@ -1,9 +1,9 @@
 /**
  * AbsolutJS
  * 
- * Object-Oriented JavaScript UI framework that works on absolute HTML.
+ * Object-Oriented JavaScript UI framework over absolute HTML.
  * 
- * @version 0.0.6
+ * @version 0.0.7
  * 
  * @author manuelbarzi
  */
