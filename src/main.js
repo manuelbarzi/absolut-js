@@ -1,316 +1,316 @@
 (function() {
-    'use strict';
+	'use strict';
 
-    Absolut.run(function() {
+	Absolut.run(function() {
 
-        /**
-         * View
-         */
+		/**
+		 * View
+		 */
 
-        var view = new Absolut.View(document.getElementById('view'));
-        view.borderWidth(0);
-        view.visible(true);
-        view.size(800, 1000);
-        view.location((Absolut.Window.width() - view.width()) / 2, 0);
-        view.add(new Absolut.WindowResize(function(event) {
-            view.location((Absolut.Window.width() - view.width()) / 2, 0);
-        }));
-        view.backgroundColor('transparent');
+		var view = new Absolut.View(document.getElementById('view'));
+		view.borderWidth(0);
+		view.visible(true);
+		view.size(800, 1000);
+		view.location((Absolut.Window.width() - view.width()) / 2, 0);
+		view.add(new Absolut.WindowResize(function(event) {
+			view.location((Absolut.Window.width() - view.width()) / 2, 0);
+		}));
+		view.backgroundColor('transparent');
 
-        // custom panel (with no border and transparent background)
+		// custom panel (with no border and transparent background)
 
-        var Panel = Absolut.Panel.extend({
-            init: function Panel(elem) {
-                this._super(elem);
-                this.backgroundColor('transparent');
-                this.borderWidth(0);
-            }
-        });
+		var Panel = Absolut.Panel.extend({
+			init: function Panel(elem) {
+				this._super(elem);
+				this.backgroundColor('transparent');
+				this.borderWidth(0);
+			}
+		});
 
-        // logo
+		// logo
 
-        var logo = new Panel(document.getElementById('logo'));
+		var logo = new Panel(document.getElementById('logo'));
 
-        logo.width(400);
-        logo.location((view.width() - logo.width()) / 2, 50);
+		logo.width(400);
+		logo.location((view.width() - logo.width()) / 2, 50);
 
-        view.add(logo);
+		view.add(logo);
 
-        // description
+		// description
 
-        var desc = new Panel(document.getElementById('desc'));
+		var desc = new Panel(document.getElementById('desc'));
 
-        desc.location((view.width() - desc.width()) / 2, logo.location().y +
-            logo.height() + 50);
+		desc.location((view.width() - desc.width()) / 2, logo.location().y +
+			logo.height() + 50);
 
-        view.add(desc);
+		view.add(desc);
 
-        // moving body title
-        var movingBodyTitle = new Panel(document
-            .getElementById('moving-body-title'));
+		// moving body title
+		var movingBodyTitle = new Panel(document
+			.getElementById('moving-body-title'));
 
-        movingBodyTitle.location((view.width() - movingBodyTitle.width()) / 2,
-            desc.location().y + desc.height() + 50);
+		movingBodyTitle.location((view.width() - movingBodyTitle.width()) / 2,
+			desc.location().y + desc.height() + 50);
 
-        view.add(movingBodyTitle);
+		view.add(movingBodyTitle);
 
-        // moving body description
+		// moving body description
 
-        var movingBodyDesc = new Panel(document
-            .getElementById('moving-body-desc'));
+		var movingBodyDesc = new Panel(document
+			.getElementById('moving-body-desc'));
 
-        movingBodyDesc.width(300);
-        movingBodyDesc.location((view.width() - movingBodyDesc.width()) / 2,
-            movingBodyTitle.location().y + movingBodyTitle.height() + 5);
-        view.add(movingBodyDesc);
+		movingBodyDesc.width(300);
+		movingBodyDesc.location((view.width() - movingBodyDesc.width()) / 2,
+			movingBodyTitle.location().y + movingBodyTitle.height() + 5);
+		view.add(movingBodyDesc);
 
-        // moving body component implementation
+		// moving body component implementation
 
-        /**
-         * MovingBody
-         * 
-         * Animated body parts that can be mouse-dragged.
-         * 
-         */
+		/**
+		 * MovingBody
+		 * 
+		 * Animated body parts that can be mouse-dragged.
+		 * 
+		 */
 
-        var MovingBody = Panel.extend({
+		var MovingBody = Panel.extend({
 
-            init: function MovingBody(bodyElem) {
+			init: function MovingBody(bodyElem) {
 
-                this._super(bodyElem);
+				this._super(bodyElem);
 
-                var body = this;
+				var body = this;
 
-                body.size(20, 200);
-                body.backgroundColor('black');
+				body.size(20, 200);
+				body.backgroundColor('black');
 
-                var diff;
+				var diff;
 
-                body.add(new Absolut.MouseDown(function(event) {
-                    var loc = body.location();
-                    diff = new Absolut.Point(event.location.x - loc.x,
-                        event.location.y - loc.y);
-                }));
+				body.add(new Absolut.MouseDown(function(event) {
+					var loc = body.location();
+					diff = new Absolut.Point(event.location.x - loc.x,
+						event.location.y - loc.y);
+				}));
 
-                body.add(new Absolut.MouseDrag(function(event) {
-                    if (diff)
-                        body.location(event.location.x - diff.x,
-                            event.location.y - diff.y);
-                }));
+				body.add(new Absolut.MouseDrag(function(event) {
+					if (diff)
+						body.location(event.location.x - diff.x,
+							event.location.y - diff.y);
+				}));
 
-                var Eye = Panel.extend({
+				var Eye = Panel.extend({
 
-                    init: function Eye(eyeElem) {
+					init: function Eye(eyeElem) {
 
-                        this._super(eyeElem);
+						this._super(eyeElem);
 
-                        var eye = this;
+						var eye = this;
 
-                        eye.size(50, 50);
-                        eye.backgroundColor('white');
+						eye.size(50, 50);
+						eye.backgroundColor('white');
 
-                        var diff;
+						var diff;
 
-                        eye.add(new Absolut.MouseDown(function(event) {
-                            var loc = eye.location();
-                            diff = new Absolut.Point(event.location.x - loc.x,
-                                event.location.y - loc.y);
-                        }));
+						eye.add(new Absolut.MouseDown(function(event) {
+							var loc = eye.location();
+							diff = new Absolut.Point(event.location.x - loc.x,
+								event.location.y - loc.y);
+						}));
 
-                        eye.add(new Absolut.MouseDrag(function(event) {
-                            if (diff)
-                                eye.location(event.location.x - diff.x,
-                                    event.location.y - diff.y);
-                        }));
+						eye.add(new Absolut.MouseDrag(function(event) {
+							if (diff)
+								eye.location(event.location.x - diff.x,
+									event.location.y - diff.y);
+						}));
 
-                        var Iris = Panel.extend({
+						var Iris = Panel.extend({
 
-                            init: function Iris(elem) {
+							init: function Iris(elem) {
 
-                                this._super(elem);
+								this._super(elem);
 
-                                var iris = this;
+								var iris = this;
 
-                                iris.location(0, 30);
-                                iris.size(20, 20);
-                                iris.backgroundColor('black');
+								iris.location(0, 30);
+								iris.size(20, 20);
+								iris.backgroundColor('black');
 
-                                var loc = iris.location(),
-                                    i = 0,
-                                    step = 1;
+								var loc = iris.location(),
+									i = 0,
+									step = 1;
 
-                                setInterval(function() {
+								setInterval(function() {
 
-                                    iris.location(loc.x + i, loc.y);
-                                    i += step;
+									iris.location(loc.x + i, loc.y);
+									i += step;
 
-                                    if (i === eye.width() - iris.width())
-                                        step = -1;
-                                    else if (i === -1)
-                                        step = 1;
+									if (i === eye.width() - iris.width())
+										step = -1;
+									else if (i === -1)
+										step = 1;
 
-                                }, 30);
+								}, 30);
 
-                            }
-                        });
+							}
+						});
 
-                        var iris = new Iris(document.getElementById(eyeElem.id +
-                            '-iris'));
+						var iris = new Iris(document.getElementById(eyeElem.id +
+							'-iris'));
 
-                        eye.add(iris);
+						eye.add(iris);
 
-                        return eye;
-                    }
+						return eye;
+					}
 
-                });
+				});
 
-                var Mouth = Panel.extend({
+				var Mouth = Panel.extend({
 
-                    init: function Mouth(mouthElem) {
+					init: function Mouth(mouthElem) {
 
-                        this._super(mouthElem);
+						this._super(mouthElem);
 
-                        var mouth = this;
+						var mouth = this;
 
-                        mouth.size(50, 50);
-                        mouth.backgroundColor('transparent');
+						mouth.size(50, 50);
+						mouth.backgroundColor('transparent');
 
-                        var diff;
+						var diff;
 
-                        mouth.add(new Absolut.MouseDown(function(event) {
-                            var loc = mouth.location();
-                            diff = new Absolut.Point(event.location.x - loc.x,
-                                event.location.y - loc.y);
-                        }));
+						mouth.add(new Absolut.MouseDown(function(event) {
+							var loc = mouth.location();
+							diff = new Absolut.Point(event.location.x - loc.x,
+								event.location.y - loc.y);
+						}));
 
-                        mouth.add(new Absolut.MouseDrag(function(event) {
-                            if (diff)
-                                mouth.location(event.location.x - diff.x,
-                                    event.location.y - diff.y);
-                        }));
+						mouth.add(new Absolut.MouseDrag(function(event) {
+							if (diff)
+								mouth.location(event.location.x - diff.x,
+									event.location.y - diff.y);
+						}));
 
-                        var Lip = Panel.extend({
+						var Lip = Panel.extend({
 
-                            init: function Lip(elem) {
+							init: function Lip(elem) {
 
-                                this._super(elem);
+								this._super(elem);
 
-                                var lip = this;
+								var lip = this;
 
-                                lip.size(mouth.width(), mouth.height() / 3);
-                                lip.backgroundColor('red');
-                            }
+								lip.size(mouth.width(), mouth.height() / 3);
+								lip.backgroundColor('red');
+							}
 
-                        });
+						});
 
-                        var lip = new Lip(document.getElementById(mouthElem.id +
-                            '-lip-1'));
+						var lip = new Lip(document.getElementById(mouthElem.id +
+							'-lip-1'));
 
-                        lip.location((-lip.width() + mouth.width()) / 2, 0);
+						lip.location((-lip.width() + mouth.width()) / 2, 0);
 
-                        mouth.add(lip);
+						mouth.add(lip);
 
-                        lip = new Lip(document.getElementById(mouthElem.id +
-                            '-lip-2'));
+						lip = new Lip(document.getElementById(mouthElem.id +
+							'-lip-2'));
 
-                        lip.location((-lip.width() + mouth.width()) / 2, mouth
-                            .height() -
-                            lip.height());
+						lip.location((-lip.width() + mouth.width()) / 2, mouth
+							.height() -
+							lip.height());
 
-                        var size = mouth.size(),
-                            step = -1,
-                            i = 0;
+						var size = mouth.size(),
+							step = -1,
+							i = 0;
 
-                        mouth.add(lip);
+						mouth.add(lip);
 
-                        setInterval(function() {
+						setInterval(function() {
 
-                            mouth.size(size.width, size.height + i);
+							mouth.size(size.width, size.height + i);
 
-                            lip.location((-lip.width() + mouth.width()) / 2,
-                                mouth.height() - lip.height());
+							lip.location((-lip.width() + mouth.width()) / 2,
+								mouth.height() - lip.height());
 
-                            i += step;
-                            if (i < -lip.height())
-                                step = 1;
-                            else if (i > 0)
-                                step = -1;
-                        }, 20);
+							i += step;
+							if (i < -lip.height())
+								step = 1;
+							else if (i > 0)
+								step = -1;
+						}, 20);
 
-                        return mouth;
-                    }
+						return mouth;
+					}
 
-                });
+				});
 
-                var eye = new Eye(document.getElementById(bodyElem.id +
-                    '-eye-1'));
+				var eye = new Eye(document.getElementById(bodyElem.id +
+					'-eye-1'));
 
-                eye.location(-eye.width() + body.width() / 3, eye.height());
+				eye.location(-eye.width() + body.width() / 3, eye.height());
 
-                body.add(eye);
+				body.add(eye);
 
-                eye = new Eye(document.getElementById(bodyElem.id + '-eye-2'));
+				eye = new Eye(document.getElementById(bodyElem.id + '-eye-2'));
 
-                eye.location(body.width() * 2 / 3, eye.height() / 2);
+				eye.location(body.width() * 2 / 3, eye.height() / 2);
 
-                body.add(eye);
+				body.add(eye);
 
-                var mouth = new Mouth(document.getElementById(bodyElem.id +
-                    '-mouth'));
+				var mouth = new Mouth(document.getElementById(bodyElem.id +
+					'-mouth'));
 
-                mouth.location(body.width() / 2, body.height() - mouth.height() *
-                    3 / 2);
+				mouth.location(body.width() / 2, body.height() - mouth.height() *
+					3 / 2);
 
-                body.add(mouth);
-            }
+				body.add(mouth);
+			}
 
-        });
+		});
 
-        // moving body panel
+		// moving body panel
 
-        var movingBodyPanel = new Panel(document
-            .getElementById('moving-body-panel'));
+		var movingBodyPanel = new Panel(document
+			.getElementById('moving-body-panel'));
 
-        movingBodyPanel.size(300, 300);
-        movingBodyPanel.location((view.width() - movingBodyPanel.width()) / 2,
-            movingBodyDesc.y() + movingBodyDesc.height() + 5);
-        movingBodyPanel.backgroundColor('lightgray');
+		movingBodyPanel.size(300, 300);
+		movingBodyPanel.location((view.width() - movingBodyPanel.width()) / 2,
+			movingBodyDesc.y() + movingBodyDesc.height() + 5);
+		movingBodyPanel.backgroundColor('lightgray');
 
-        // moving body instantiation and inclusion to the view
+		// moving body instantiation and inclusion to the view
 
-        var movingBody = new MovingBody(document.getElementById('body'));
+		var movingBody = new MovingBody(document.getElementById('body'));
 
-        movingBody.location((movingBodyPanel.width() - movingBody.width()) / 2,
-            (movingBodyPanel.height() - movingBody.height()) / 2);
+		movingBody.location((movingBodyPanel.width() - movingBody.width()) / 2,
+			(movingBodyPanel.height() - movingBody.height()) / 2);
 
-        movingBodyPanel.add(movingBody);
+		movingBodyPanel.add(movingBody);
 
-        view.add(movingBodyPanel);
+		view.add(movingBodyPanel);
 
-        // moving body footer
+		// moving body footer
 
-        var movingBodyFooter = new Panel(document
-            .getElementById('moving-body-footer'));
+		var movingBodyFooter = new Panel(document
+			.getElementById('moving-body-footer'));
 
-        movingBodyFooter.location(
-            (view.width() - movingBodyFooter.width()) / 2, movingBodyPanel
-            .location().y +
-            movingBodyPanel.height() + 5);
+		movingBodyFooter.location(
+			(view.width() - movingBodyFooter.width()) / 2, movingBodyPanel
+			.location().y +
+			movingBodyPanel.height() + 5);
 
-        view.add(movingBodyFooter);
+		view.add(movingBodyFooter);
 
-        /**
-         * ... View
-         */
+		/**
+		 * ... View
+		 */
 
-        // footer
-        var footer = new Panel(document.getElementById('footer'));
+		// footer
+		var footer = new Panel(document.getElementById('footer'));
 
-        footer.location((view.width() - footer.width()) / 2, movingBodyFooter
-            .location().y +
-            movingBodyFooter.height() + 50);
+		footer.location((view.width() - footer.width()) / 2, movingBodyFooter
+			.location().y +
+			movingBodyFooter.height() + 50);
 
-        view.add(footer);
-    });
+		view.add(footer);
+	});
 
 })();

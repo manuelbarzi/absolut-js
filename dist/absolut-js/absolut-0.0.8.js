@@ -1,11 +1,11 @@
 /**
- * _titl
+ * AbsolutJS
  * 
- * _desc
+ * Object-Oriented JavaScript UI framework over absolute HTML.
  * 
- * @version _ver
+ * @version 0.0.8
  * 
- * @author _auth
+ * @author manuelbarzi
  */
 var Absolut;
 (function() {
