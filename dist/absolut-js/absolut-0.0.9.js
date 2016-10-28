@@ -3,7 +3,7 @@
  * 
  * Object-Oriented JavaScript UI framework over absolute HTML.
  * 
- * @version 0.0.8
+ * @version 0.0.9
  * 
  * @author manuelbarzi
  */
@@ -578,11 +578,12 @@ var Absolut;
 			},
 
 			getX: function() {
-				return elem.getX(this._elem);
+				return js.notDefined(this._x) ? elem.getX(this._elem) : this._x;
 			},
 
 			setX: function(x) {
-				elem.setX(this._elem, x);
+				if (js.isDefined(x))
+					elem.setX(this._elem, this._x = x);
 			},
 
 			x: function(x) {
@@ -592,11 +593,12 @@ var Absolut;
 			},
 
 			getY: function() {
-				return elem.getY(this._elem);
+				return js.notDefined(this._y) ? elem.getY(this._elem) : this._y;
 			},
 
 			setY: function(y) {
-				elem.setY(this._elem, y);
+				if (js.isDefined(y))
+					elem.setY(this._elem, this._y = y);
 			},
 
 			y: function(y) {
@@ -612,11 +614,12 @@ var Absolut;
 			// dimensions
 
 			getWidth: function() {
-				return elem.getWidth(this._elem);
+				return js.notDefined(this._width) ? elem.getWidth(this._elem) : this._width; // NOTE: cache _width is required to avoid undesired behavior on auto refresh, that makes auto-expand to the infinite (same for _height, and as a prevention on _x and _y, despite the behavior was not seen on these last 2 ones).
 			},
 
 			setWidth: function(width) {
-				elem.setWidth(this._elem, width);
+				if (js.isDefined(width))
+					elem.setWidth(this._elem, this._width = width);
 			},
 
 			width: function(width) {
@@ -626,11 +629,12 @@ var Absolut;
 			},
 
 			getHeight: function() {
-				return elem.getHeight(this._elem);
+				return js.notDefined(this._height) ? elem.getHeight(this._elem) : this._height;
 			},
 
 			setHeight: function(height) {
-				elem.setHeight(this._elem, height);
+				if (js.isDefined(height))
+					elem.setHeight(this._elem, this._height = height);
 			},
 
 			height: function(height) {
