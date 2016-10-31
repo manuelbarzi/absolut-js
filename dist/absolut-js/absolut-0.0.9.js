@@ -269,7 +269,7 @@ var Absolut;
 
 							// Add a new ._super() method that is the same method
 							// but on the super-class
-							this._super = _super[name];
+							this._super = _super;
 
 							// The method only need to be bound temporarily, so we
 							// remove it when we're done executing
@@ -731,7 +731,7 @@ var Absolut;
 
 		WindowResize = Behavior.extend({
 			init: function WindowResize(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
@@ -739,31 +739,31 @@ var Absolut;
 
 		MouseDown = Behavior.extend({
 			init: function MouseDown(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		MouseMove = Behavior.extend({
 			init: function MouseMove(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		MouseUp = Behavior.extend({
 			init: function MouseUp(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		MouseDrag = Behavior.extend({
 			init: function MouseDrag(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		MouseClick = Behavior.extend({
 			init: function MouseClick(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
@@ -771,19 +771,19 @@ var Absolut;
 
 		KeyDown = Behavior.extend({
 			init: function KeyDown(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		KeyUp = Behavior.extend({
 			init: function KeyUp(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
 		KeyPress = Behavior.extend({
 			init: function KeyPressed(action) {
-				this._super(action);
+				this._super.init.call(this, action);
 			}
 		});
 
@@ -796,7 +796,7 @@ var Absolut;
 			.extend({
 
 				init: function Panel(elem) {
-					this._super(elem);
+					this._super.init.call(this, elem);
 					this.backgroundColor('white');
 					this.borderColor('black');
 					this.borderWidth(1);
@@ -835,7 +835,7 @@ var Absolut;
 		Button = Panel.extend({
 
 			init: function Button(elem, click) {
-				this._super(elem);
+				this._super.init.call(this, elem);
 				if (js.isDefined(click))
 					this.add(new MouseClick(click));
 			}
@@ -847,7 +847,7 @@ var Absolut;
 		 */
 		Link = Component.extend({
 			init: function Link(elem, click) {
-				this._super(elem);
+				this._super.init.call(this, elem);
 				if (js.isDefined(click))
 					this.add(new MouseClick(click));
 			}
@@ -858,7 +858,7 @@ var Absolut;
 		 */
 		View = Panel.extend({
 			init: function View(elem_) {
-				this._super(elem_);
+				this._super.init.call(this, elem_);
 				var self = this;
 
 				/**

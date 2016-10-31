@@ -21,7 +21,7 @@
 
 		var Panel = Absolut.Panel.extend({
 			init: function Panel(elem) {
-				this._super(elem);
+				this._super.init.call(this, elem);
 				this.backgroundColor('transparent');
 				this.borderWidth(0);
 			}
@@ -77,7 +77,7 @@
 
 			init: function MovingBody(bodyElem) {
 
-				this._super(bodyElem);
+				this._super.init.call(this, bodyElem);
 
 				var body = this;
 
@@ -102,7 +102,7 @@
 
 					init: function Eye(eyeElem) {
 
-						this._super(eyeElem);
+						this._super.init.call(this, eyeElem);
 
 						var eye = this;
 
@@ -127,7 +127,7 @@
 
 							init: function Iris(elem) {
 
-								this._super(elem);
+								this._super.init.call(this, elem);
 
 								var iris = this;
 
@@ -168,7 +168,7 @@
 
 					init: function Mouth(mouthElem) {
 
-						this._super(mouthElem);
+						this._super.init.call(this, mouthElem);
 
 						var mouth = this;
 
@@ -193,7 +193,7 @@
 
 							init: function Lip(elem) {
 
-								this._super(elem);
+								this._super.init.call(this, elem);
 
 								var lip = this;
 
