@@ -289,10 +289,28 @@
 
 		movingBodyFooter.location(
 			(view.width() - movingBodyFooter.width()) / 2, movingBodyPanel
-			.location().y +
+			.y() +
 			movingBodyPanel.height() + 5);
 
 		view.add(movingBodyFooter);
+
+		/**
+		 * touch test
+		 */
+
+		var touchTest = new Panel(document.getElementById('touch-test'));
+
+		touchTest.backgroundColor('yellow');
+		touchTest.size(100, 100);
+		touchTest.location((view.width() - touchTest.width()) / 2, movingBodyFooter.y() + movingBodyFooter.height() + 5);
+
+		touchTest.add(new Absolut.TouchStart(function(event) {
+			console.log(event.location);
+			touchTest.location(event.location);
+		}));
+
+		view.add(touchTest);
+
 
 		/**
 		 * ... View

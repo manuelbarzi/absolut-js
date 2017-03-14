@@ -383,7 +383,8 @@ var Absolut;
 	/**
 	 * Absolut core
 	 */
-	var Component, Behavior, Panel, Button, View, MouseDown, MouseMove, MouseClick, MouseUp, MouseDrag, KeyDown, KeyUp, KeyPress;
+	var Component, Behavior, Panel, Button, View, MouseDown, MouseMove, MouseClick, MouseUp, MouseDrag, KeyDown, KeyUp, KeyPress,
+		TouchStart, TouchEnd, TouchMove, TouchDrag;
 	(function() {
 
 		/**
@@ -399,6 +400,7 @@ var Absolut;
 
 				this._elem = elem;
 				this._mouse = {};
+				this._touch = {};
 				this._children = [];
 				this._behaviors = [];
 			},
@@ -545,6 +547,64 @@ var Absolut;
 						for (var i in this._children) {
 							this._children[i]._keyPress(event);
 						}
+					}
+				}
+			},
+
+			// touch event handling
+
+			_touchMove: function(event) {
+				if (this.isVisible()) {
+					if (this._isPointed(event.location)) {
+						this._event(TouchMove, event);
+						if (this._touch.pressed) {
+							this._touch.dragging = true;
+							this._event(TouchDrag, event);
+						}
+					} else if (this._touch.dragging)
+						this._event(TouchDrag, event);
+					if (js.notEmpty(this._children)) {
+						for (var i in this._children) {
+							this._children[i]._touchMove(event);
+						}
+					}
+				}
+			},
+
+			_touchStart: function(event) {
+				if (this.isVisible()) {
+					if (this._isPointed(event.location)) {
+						this._touch.pressed = true;
+						this._event(TouchStart, event);
+					}
+					if (js.notEmpty(this._children)) {
+						for (var i in this._children) {
+							this._children[i]._touchStart(event);
+						}
+					}
+				}
+			},
+
+			_touchEnd: function(event) {
+				this._releaseTouch();
+				if (this.isVisible()) {
+					if (this._isPointed(event.location)) {
+						this._event(TouchEnd, event);
+					}
+					if (js.notEmpty(this._children)) {
+						for (var i in this._children) {
+							this._children[i]._touchEnd(event);
+						}
+					}
+				}
+			},
+
+			_releaseTouch: function() {
+				this._touch.pressed = false;
+				this._touch.dragging = false;
+				if (js.notEmpty(this._children)) {
+					for (var i in this._children) {
+						this._children[i]._releaseTouch();
 					}
 				}
 			},
@@ -807,6 +867,32 @@ var Absolut;
 			}
 		});
 
+		// touch behaviors
+
+		TouchStart = Behavior.extend({
+			init: function TouchStart(action) {
+				this._super.init.call(this, action);
+			}
+		});
+
+		TouchMove = Behavior.extend({
+			init: function TouchMove(action) {
+				this._super.init.call(this, action);
+			}
+		});
+
+		TouchEnd = Behavior.extend({
+			init: function TouchEnd(action) {
+				this._super.init.call(this, action);
+			}
+		});
+
+		TouchDrag = Behavior.extend({
+			init: function TouchDrag(action) {
+				this._super.init.call(this, action);
+			}
+		});
+
 		// base components
 
 		/**
@@ -940,6 +1026,34 @@ var Absolut;
 					self._keyPress(new KeyEvent(event));
 				});
 
+				/**
+				 * Touch Event
+				 */
+				function TouchEvent(event) {
+					var touches = event.touches[0];
+					this.location = new Point(touches.clientX, touches.clientY);
+				}
+
+				// touch events handling through view component's tree
+
+				window.addEventListener('touchstart', function(event) {
+					if (event.touches.length > 0) {
+						self._touchStart(new TouchEvent(event));
+					}
+				});
+
+				window.addEventListener('touchend', function(event) {
+					if (event.touches.length > 0) {
+						self._touchEnd(new TouchEvent(event));
+					}
+				});
+
+				window.addEventListener('touchmove', function(event) {
+					if (event.touches.length > 0) {
+						self._touchMove(new TouchEvent(event));
+					}
+				});
+
 				// auto refresh
 
 				this.autoRefreshInterval(40);
@@ -987,7 +1101,11 @@ var Absolut;
 		MouseDrag: MouseDrag,
 		KeyDown: KeyDown,
 		KeyUp: KeyUp,
-		KeyPress: KeyPress
+		KeyPress: KeyPress,
+		TouchStart: TouchStart,
+		TouchMove: TouchMove,
+		TouchEnd: TouchEnd,
+		TouchDrag: TouchDrag
 	};
 
 })();
